@@ -1,4 +1,4 @@
-﻿namespace Freelance.Shared.Domain.Interfaces;
+﻿namespace Shared.Domain.Interfaces;
 
 public interface IUnitOfWork<T>
 {    

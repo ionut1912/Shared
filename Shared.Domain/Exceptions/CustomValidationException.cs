@@ -1,6 +1,6 @@
-﻿using Freelance.Shared.Domain.Common;
+﻿using Shared.Domain.Common;
 
-namespace Freelance.Shared.Domain.Exceptions;
+namespace Shared.Domain.Exceptions;
 
 public class CustomValidationException(List<ValidationError> validationErrors) : Exception
 {

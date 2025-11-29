@@ -1,4 +1,4 @@
-﻿namespace Freelance.Shared.Domain.Common;
+﻿namespace Shared.Domain.Common;
 
 public abstract class Entity
 {

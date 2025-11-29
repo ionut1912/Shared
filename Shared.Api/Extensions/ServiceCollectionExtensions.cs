@@ -15,7 +15,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Shared.Infra.Settings;
 
-namespace Freelance.Shared.Api.Extensions;
+namespace Shared.Api.Extensions;
 
   public static class ServiceCollectionExtensions
     {

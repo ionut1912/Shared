@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Freelance.Shared.Api.Extensions;
+namespace Shared.Api.Extensions;
 
  public static class ApplicationBuilderExtensions
     {

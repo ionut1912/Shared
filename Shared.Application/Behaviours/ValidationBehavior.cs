@@ -3,7 +3,7 @@ using Freelance.Shared.Domain.Common;
 using Freelance.Shared.Domain.Exceptions;
 using MediatR;
 
-namespace Freelance.Shared.Application.Behaviours;
+namespace Shared.Application.Behaviours;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
