@@ -11,3 +11,4 @@ C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release\net9.0\Shared.Api.
 C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release\net9.0\refint\Shared.Api.dll
 C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release\net9.0\Shared.Api.pdb
 C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release\net9.0\ref\Shared.Api.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release\net9.0\Shared.Api.sourcelink.json

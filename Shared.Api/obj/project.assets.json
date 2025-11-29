@@ -938,7 +938,7 @@
           }
         }
       },
-      "Shared.Application/1.0.0": {
+      "Shared.Application/1.0.1": {
         "type": "package",
         "dependencies": {
           "FluentValidation": "12.1.0",
@@ -956,7 +956,7 @@
           }
         }
       },
-      "Shared.Domain/1.0.0": {
+      "Shared.Domain/1.0.1": {
         "type": "package",
         "compile": {
           "lib/net9.0/Shared.Domain.dll": {
@@ -969,13 +969,13 @@
           }
         }
       },
-      "Shared.Infra/1.0.0": {
+      "Shared.Infra/1.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Routing": "2.3.0",
           "Microsoft.EntityFrameworkCore": "9.0.11",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4",
-          "Shared.Domain": "1.0.0"
+          "Shared.Domain": "1.0.1"
         },
         "compile": {
           "lib/net9.0/Shared.Infra.dll": {
@@ -2627,39 +2627,39 @@
         "opentelemetry.instrumentation.runtime.nuspec"
       ]
     },
-    "Shared.Application/1.0.0": {
-      "sha512": "7+wuIxZwAVu6bfJIgaS0KcpORHQYceHJs5SlGJjdn6XdFJtBQS65euyf+yNWNuQpmaFmz+3sICvJ80w2bStI3w==",
+    "Shared.Application/1.0.1": {
+      "sha512": "xYUVjsDEzMQd0d/BI+O3CmIeXazWTm+wmhSk7Zx64psqGQaDnQTh8ZW9M8a5qQIIkOXwoc8Oe9thjKpHyZPhlA==",
       "type": "package",
-      "path": "shared.application/1.0.0",
+      "path": "shared.application/1.0.1",
       "files": [
         ".nupkg.metadata",
         "lib/net9.0/Shared.Application.dll",
         "lib/net9.0/Shared.Application.xml",
-        "shared.application.1.0.0.nupkg.sha512",
+        "shared.application.1.0.1.nupkg.sha512",
         "shared.application.nuspec"
       ]
     },
-    "Shared.Domain/1.0.0": {
-      "sha512": "p8lDoGYpmAIsInMuhtNtZPQ76hJMpFjPHK1jQfC+iUZEjUiBE6IdtNN53UQsYT4vcHYB+vZ1zPSh7/h6q8/vPg==",
+    "Shared.Domain/1.0.1": {
+      "sha512": "eXWUroMfDNbvIMwLD402XzAWBAGK0aN7SDxqXJyxYtyp6UMbZkt1zpS1sCJu3huI+hw6BnJfontwzdNKD6WTMg==",
       "type": "package",
-      "path": "shared.domain/1.0.0",
+      "path": "shared.domain/1.0.1",
       "files": [
         ".nupkg.metadata",
         "lib/net9.0/Shared.Domain.dll",
         "lib/net9.0/Shared.Domain.xml",
-        "shared.domain.1.0.0.nupkg.sha512",
+        "shared.domain.1.0.1.nupkg.sha512",
         "shared.domain.nuspec"
       ]
     },
-    "Shared.Infra/1.0.0": {
-      "sha512": "fnFqdiL0PSb2OFJulP3YfWdANosKwArWHF6il31TqX+mEiUVMJ9DH3dqpe5v09wNn6LhpGHkp2pBT6hwagkb1Q==",
+    "Shared.Infra/1.0.1": {
+      "sha512": "oUxR1TWxp6JL5jQvLL7HfqI6fay7LtAZXohpGeyD90Y6LQRG8XFEldUF22T1T9lbiVis86uYNVZJ7EqWNzqeww==",
       "type": "package",
-      "path": "shared.infra/1.0.0",
+      "path": "shared.infra/1.0.1",
       "files": [
         ".nupkg.metadata",
         "lib/net9.0/Shared.Infra.dll",
         "lib/net9.0/Shared.Infra.xml",
-        "shared.infra.1.0.0.nupkg.sha512",
+        "shared.infra.1.0.1.nupkg.sha512",
         "shared.infra.nuspec"
       ]
     },
@@ -2855,18 +2855,19 @@
       "OpenTelemetry.Instrumentation.Http >= 1.14.0",
       "OpenTelemetry.Instrumentation.Process >= 1.14.0-beta.2",
       "OpenTelemetry.Instrumentation.Runtime >= 1.14.0",
-      "Shared.Application >= 1.0.0",
-      "Shared.Infra >= 1.0.0",
+      "Shared.Application >= 1.0.1",
+      "Shared.Infra >= 1.0.1",
       "Swashbuckle.AspNetCore >= 9.0.6",
       "Swashbuckle.AspNetCore.SwaggerGen >= 9.0.6",
       "System.IdentityModel.Tokens.Jwt >= 8.14.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\nites\\.nuget\\packages\\": {}
+    "C:\\Users\\nites\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.0.2",
     "restore": {
       "projectUniqueName": "C:\\Users\\nites\\Desktop\\projects\\Shared\\Shared.Api\\Shared.Api.csproj",
       "projectName": "Shared.Api",
@@ -2874,14 +2875,21 @@
       "packagesPath": "C:\\Users\\nites\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\nites\\Desktop\\projects\\Shared\\Shared.Api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\nites\\Desktop\\projects\\Shared\\Shared.Api\\NuGet.Config",
-        "C:\\Users\\nites\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\nites\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://nuget.pkg.github.com/ionut1912/index.json": {}
       },
@@ -2901,7 +2909,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -2965,11 +2973,11 @@
           },
           "Shared.Application": {
             "target": "Package",
-            "version": "[1.0.0, )"
+            "version": "[1.0.1, )"
           },
           "Shared.Infra": {
             "target": "Package",
-            "version": "[1.0.0, )"
+            "version": "[1.0.1, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
@@ -2995,12 +3003,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

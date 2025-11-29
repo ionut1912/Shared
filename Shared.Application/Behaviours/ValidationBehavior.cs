@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Freelance.Shared.Domain.Common;
-using Freelance.Shared.Domain.Exceptions;
 using MediatR;
+using Shared.Domain.Common;
+using Shared.Domain.Exceptions;
 
 namespace Shared.Application.Behaviours;
 

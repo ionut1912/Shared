@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.Api</id>
+    <version>1.0.2</version>
+    <authors>ionut1912</authors>
+    <description>Shared api layer for  microservices</description>
+    <repository type="git" commit="b9810a7dc304c0c1c014dda47bf6013bf5e44826" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="AutoMapper" version="15.1.0" exclude="Build,Analyzers" />
+        <dependency id="FluentValidation" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="FluentValidation.DependencyInjectionExtensions" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="MediatR" version="13.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="9.0.11" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="9.0.1" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Exporter.OpenTelemetryProtocol" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Extensions.Hosting" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.AspNetCore" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.EntityFrameworkCore" version="1.14.0-beta.2" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.EventCounters" version="1.14.0-alpha.1" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Http" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Process" version="1.14.0-beta.2" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Runtime" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="Shared.Application" version="1.0.1" exclude="Build,Analyzers" />
+        <dependency id="Shared.Infra" version="1.0.1" exclude="Build,Analyzers" />
+        <dependency id="Swashbuckle.AspNetCore" version="9.0.6" exclude="Build,Analyzers" />
+        <dependency id="Swashbuckle.AspNetCore.SwaggerGen" version="9.0.6" exclude="Build,Analyzers" />
+        <dependency id="System.IdentityModel.Tokens.Jwt" version="8.14.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release\net9.0\Shared.Api.pdb" target="lib\net9.0\Shared.Api.pdb" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release\net9.0\Shared.Api.dll" target="lib\net9.0\Shared.Api.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release\net9.0\Shared.Api.xml" target="lib\net9.0\Shared.Api.xml" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\Extensions\ApplicationBuilderExtensions.cs" target="src\Shared.Api\Extensions\ApplicationBuilderExtensions.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\Extensions\ServiceCollectionExtensions.cs" target="src\Shared.Api\Extensions\ServiceCollectionExtensions.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release\net9.0\Shared.Api.GlobalUsings.g.cs" target="src\Shared.Api\obj\Release\net9.0\Shared.Api.GlobalUsings.g.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\Shared.Api.csproj" target="src\Shared.Api\Shared.Api.csproj" />
+  </files>
+</package>

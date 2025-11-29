@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xU7ae6N/FQk=",
+  "dgSpecHash": "J5cdgIDatFw=",
   "success": true,
   "projectFilePath": "C:\\Users\\nites\\Desktop\\projects\\Shared\\Shared.Api\\Shared.Api.csproj",
   "expectedPackageFiles": [
@@ -58,9 +58,9 @@
     "C:\\Users\\nites\\.nuget\\packages\\opentelemetry.instrumentation.http\\1.14.0\\opentelemetry.instrumentation.http.1.14.0.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\opentelemetry.instrumentation.process\\1.14.0-beta.2\\opentelemetry.instrumentation.process.1.14.0-beta.2.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\opentelemetry.instrumentation.runtime\\1.14.0\\opentelemetry.instrumentation.runtime.1.14.0.nupkg.sha512",
-    "C:\\Users\\nites\\.nuget\\packages\\shared.application\\1.0.0\\shared.application.1.0.0.nupkg.sha512",
-    "C:\\Users\\nites\\.nuget\\packages\\shared.domain\\1.0.0\\shared.domain.1.0.0.nupkg.sha512",
-    "C:\\Users\\nites\\.nuget\\packages\\shared.infra\\1.0.0\\shared.infra.1.0.0.nupkg.sha512",
+    "C:\\Users\\nites\\.nuget\\packages\\shared.application\\1.0.1\\shared.application.1.0.1.nupkg.sha512",
+    "C:\\Users\\nites\\.nuget\\packages\\shared.domain\\1.0.1\\shared.domain.1.0.1.nupkg.sha512",
+    "C:\\Users\\nites\\.nuget\\packages\\shared.infra\\1.0.1\\shared.infra.1.0.1.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\swashbuckle.aspnetcore\\9.0.6\\swashbuckle.aspnetcore.9.0.6.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\9.0.6\\swashbuckle.aspnetcore.swagger.9.0.6.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\9.0.6\\swashbuckle.aspnetcore.swaggergen.9.0.6.nupkg.sha512",
@@ -68,7 +68,10 @@
     "C:\\Users\\nites\\.nuget\\packages\\system.buffers\\4.6.0\\system.buffers.4.6.0.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0\\system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512",
     "C:\\Users\\nites\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.14.0\\system.identitymodel.tokens.jwt.8.14.0.nupkg.sha512",
-    "C:\\Users\\nites\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512"
+    "C:\\Users\\nites\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
+    "C:\\Users\\nites\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.11\\microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\nites\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.11\\microsoft.windowsdesktop.app.ref.9.0.11.nupkg.sha512",
+    "C:\\Users\\nites\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.11\\microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512"
   ],
   "logs": []
 }

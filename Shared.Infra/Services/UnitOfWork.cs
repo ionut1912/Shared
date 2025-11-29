@@ -1,5 +1,5 @@
-﻿using Freelance.Shared.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Domain.Interfaces;
 
 namespace Shared.Infra.Services;
 

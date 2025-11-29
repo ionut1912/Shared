@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using FluentValidation;
-using Freelance.Shared.Application.Behaviours;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Shared.Application.Behaviours;
 using Shared.Infra.Settings;
 
 namespace Shared.Api.Extensions;
