@@ -1,0 +1,13 @@
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\bin\Release\net9.0\Freelance.Shared.Domain.deps.json
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\bin\Release\net9.0\Freelance.Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\bin\Release\net9.0\Freelance.Shared.Domain.pdb
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.AssemblyInfoInputs.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.AssemblyInfo.cs
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.csproj.CoreCompileInputs.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.sourcelink.json
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\refint\Freelance.Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\Freelance.Shared.Domain.pdb
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\obj\Release\net9.0\ref\Freelance.Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Domain\bin\Release\net9.0\Freelance.Shared.Domain.xml

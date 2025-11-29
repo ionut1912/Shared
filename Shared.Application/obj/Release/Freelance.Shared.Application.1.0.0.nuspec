@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Freelance.Shared.Application</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared application layer for Freelance microservices</description>
+    <repository type="git" commit="55d0987aab07159a5a2114e7405918b3e6a0eeda" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="FluentValidation" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="Freelance.Shared.Domain" version="1.0.1" exclude="Build,Analyzers" />
+        <dependency id="MediatR" version="13.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Release\net9.0\Freelance.Shared.Application.dll" target="lib\net9.0\Freelance.Shared.Application.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Release\net9.0\Freelance.Shared.Application.xml" target="lib\net9.0\Freelance.Shared.Application.xml" />
+  </files>
+</package>

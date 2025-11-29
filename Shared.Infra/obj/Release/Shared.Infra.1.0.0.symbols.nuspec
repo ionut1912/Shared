@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.Infra</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared infra layer for  microservices</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Microsoft.AspNetCore.Routing" version="2.3.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="9.0.11" exclude="Build,Analyzers" />
+        <dependency id="Npgsql.EntityFrameworkCore.PostgreSQL" version="9.0.4" exclude="Build,Analyzers" />
+        <dependency id="Shared.Domain" version="1.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\bin\Release\net9.0\Shared.Infra.pdb" target="lib\net9.0\Shared.Infra.pdb" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\bin\Release\net9.0\Shared.Infra.dll" target="lib\net9.0\Shared.Infra.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\bin\Release\net9.0\Shared.Infra.xml" target="lib\net9.0\Shared.Infra.xml" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Extensions\DatabaseExtensions.cs" target="src\Shared.Infra\Extensions\DatabaseExtensions.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Services\UnitOfWork.cs" target="src\Shared.Infra\Services\UnitOfWork.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Settings\JwtSettings.cs" target="src\Shared.Infra\Settings\JwtSettings.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\obj\Release\net9.0\Shared.Infra.GlobalUsings.g.cs" target="src\Shared.Infra\obj\Release\net9.0\Shared.Infra.GlobalUsings.g.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Shared.Infra.csproj" target="src\Shared.Infra\Shared.Infra.csproj" />
+  </files>
+</package>

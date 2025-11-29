@@ -1,0 +1,13 @@
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.csproj.AssemblyReference.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.AssemblyInfoInputs.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.AssemblyInfo.cs
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.csproj.CoreCompileInputs.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.sourcelink.json
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\bin\Debug\net9.0\Freelance.Shared.Api.deps.json
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\bin\Debug\net9.0\Freelance.Shared.Api.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\bin\Debug\net9.0\Freelance.Shared.Api.pdb
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\refint\Freelance.Shared.Api.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\Freelance.Shared.Api.pdb
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Debug\net9.0\ref\Freelance.Shared.Api.dll

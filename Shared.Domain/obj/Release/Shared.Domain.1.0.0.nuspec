@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.Domain</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared domain layer for  microservices</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net9.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Release\net9.0\Shared.Domain.dll" target="lib\net9.0\Shared.Domain.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Release\net9.0\Shared.Domain.xml" target="lib\net9.0\Shared.Domain.xml" />
+  </files>
+</package>

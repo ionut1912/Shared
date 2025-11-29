@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Freelance.Shared.Api</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared api layer for Freelance microservices</description>
+    <repository type="git" commit="34ad3251b0c8e845e923a0f0eda5e1f5804695af" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="AutoMapper" version="15.1.0" exclude="Build,Analyzers" />
+        <dependency id="FluentValidation" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="FluentValidation.DependencyInjectionExtensions" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="Freelance.Shared.Application" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Freelance.Shared.Infrastructure" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="MediatR" version="13.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="9.0.11" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="9.0.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="9.0.10" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Exporter.OpenTelemetryProtocol" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Extensions.Hosting" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.AspNetCore" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.EntityFrameworkCore" version="1.14.0-beta.2" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.EventCounters" version="1.14.0-alpha.1" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Http" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Process" version="1.14.0-beta.2" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Runtime" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="Swashbuckle.AspNetCore" version="9.0.6" exclude="Build,Analyzers" />
+        <dependency id="Swashbuckle.AspNetCore.SwaggerGen" version="9.0.6" exclude="Build,Analyzers" />
+        <dependency id="System.IdentityModel.Tokens.Jwt" version="8.14.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\bin\Release\net9.0\Freelance.Shared.Api.pdb" target="lib\net9.0\Freelance.Shared.Api.pdb" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\bin\Release\net9.0\Freelance.Shared.Api.dll" target="lib\net9.0\Freelance.Shared.Api.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\bin\Release\net9.0\Freelance.Shared.Api.xml" target="lib\net9.0\Freelance.Shared.Api.xml" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\Extensions\ApplicationBuilderExtensions.cs" target="src\Freelance.Shared.Api\Extensions\ApplicationBuilderExtensions.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\Extensions\ServiceCollectionExtensions.cs" target="src\Freelance.Shared.Api\Extensions\ServiceCollectionExtensions.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\obj\Release\net9.0\Freelance.Shared.Api.GlobalUsings.g.cs" target="src\Freelance.Shared.Api\obj\Release\net9.0\Freelance.Shared.Api.GlobalUsings.g.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Api\Freelance.Shared.Api.csproj" target="src\Freelance.Shared.Api\Freelance.Shared.Api.csproj" />
+  </files>
+</package>

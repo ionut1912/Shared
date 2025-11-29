@@ -1,0 +1,14 @@
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.deps.json
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.pdb
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.csproj.AssemblyReference.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.AssemblyInfoInputs.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.AssemblyInfo.cs
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.csproj.CoreCompileInputs.cache
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.sourcelink.json
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\refint\Freelance.Shared.Application.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.pdb
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\ref\Freelance.Shared.Application.dll
+C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.xml

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.Application</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared application layer for microservices</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="FluentValidation" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="MediatR" version="13.1.0" exclude="Build,Analyzers" />
+        <dependency id="Shared.Domain" version="1.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Application\bin\Release\net9.0\Shared.Application.pdb" target="lib\net9.0\Shared.Application.pdb" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Application\bin\Release\net9.0\Shared.Application.dll" target="lib\net9.0\Shared.Application.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Application\bin\Release\net9.0\Shared.Application.xml" target="lib\net9.0\Shared.Application.xml" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Application\Behaviours\ValidationBehavior.cs" target="src\Shared.Application\Behaviours\ValidationBehavior.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Application\obj\Release\net9.0\Shared.Application.GlobalUsings.g.cs" target="src\Shared.Application\obj\Release\net9.0\Shared.Application.GlobalUsings.g.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Application\Shared.Application.csproj" target="src\Shared.Application\Shared.Application.csproj" />
+  </files>
+</package>

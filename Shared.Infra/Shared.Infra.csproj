@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup>
+  <TargetFramework>net9.0</TargetFramework>
+  <ImplicitUsings>enable</ImplicitUsings>
+  <Nullable>enable</Nullable>
+  <Version>1.0.0</Version>
+  <Authors>ionut1912</Authors>
+  <Company>Shared</Company>
+  <PackageId>Shared.Infra</PackageId>
+  <Description>Shared infra layer for  microservices</Description>
+  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  <IncludeSymbols>true</IncludeSymbols>
+  <IncludeSource>true</IncludeSource>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  <DocumentationFile>bin\Release\net9.0\Shared.Infra.xml</DocumentationFile>
+</PropertyGroup>
+<ItemGroup>
+  <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.0" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+  <PackageReference Include="Shared.Domain" Version="1.0.0" />
+</ItemGroup>
+</Project>

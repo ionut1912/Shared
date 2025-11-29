@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Freelance.Shared.Application</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared application layer for Freelance microservices</description>
+    <repository type="git" commit="34ad3251b0c8e845e923a0f0eda5e1f5804695af" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="FluentValidation" version="12.1.0" exclude="Build,Analyzers" />
+        <dependency id="Freelance.Shared.Domain" version="1.0.1" exclude="Build,Analyzers" />
+        <dependency id="MediatR" version="13.1.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.pdb" target="lib\net9.0\Freelance.Shared.Application.pdb" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.dll" target="lib\net9.0\Freelance.Shared.Application.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\bin\Debug\net9.0\Freelance.Shared.Application.xml" target="lib\net9.0\Freelance.Shared.Application.xml" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\Behaviours\ValidationBehavior.cs" target="src\Freelance.Shared.Application\Behaviours\ValidationBehavior.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.GlobalUsings.g.cs" target="src\Freelance.Shared.Application\obj\Debug\net9.0\Freelance.Shared.Application.GlobalUsings.g.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Frelance-App\freelance-api\Freelance.Shared\Freelance.Shared.Application\Freelance.Shared.Application.csproj" target="src\Freelance.Shared.Application\Freelance.Shared.Application.csproj" />
+  </files>
+</package>

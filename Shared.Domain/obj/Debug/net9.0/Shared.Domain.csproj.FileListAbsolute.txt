@@ -1,0 +1,12 @@
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.deps.json
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.pdb
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.xml
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.AssemblyInfoInputs.cache
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.AssemblyInfo.cs
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.csproj.CoreCompileInputs.cache
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\refint\Shared.Domain.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.pdb
+C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\ref\Shared.Domain.dll
