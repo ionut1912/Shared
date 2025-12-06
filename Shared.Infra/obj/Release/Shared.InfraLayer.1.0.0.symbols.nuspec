@@ -5,7 +5,7 @@
     <version>1.0.0</version>
     <authors>ionut1912</authors>
     <description>Shared infra layer for  microservices</description>
-    <repository type="git" commit="7336b484ab58aca2a7f21d226f0138590db64526" />
+    <repository type="git" commit="ede5a46d4a5196ba23010b2b16d4cf288bb8a21b" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Microsoft.AspNetCore.Routing" version="2.3.0" exclude="Build,Analyzers" />

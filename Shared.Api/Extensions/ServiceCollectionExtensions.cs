@@ -14,171 +14,179 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Shared.Application.Behaviours;
 using Shared.Infra.Settings;
+
 namespace Shared.Api.Extensions;
 
-  public static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
+{
+    public static IServiceCollection AddDatabaseContext<TContext>(
+        this IServiceCollection services,
+        IConfiguration configuration) where TContext : DbContext
     {
-        public static IServiceCollection AddDatabaseContext<TContext>(
-            this IServiceCollection services, 
-            IConfiguration configuration) 
-            where TContext : DbContext
-        {
-            services.AddDbContext<TContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-            
-            return services;
-        }
+        services.AddDbContext<TContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-        public static IServiceCollection AddMediatorWithValidation(
-            this IServiceCollection services,
-            Type mediatorAssemblyMarker,
-            Type validatorAssemblyMarker,
-            Type mappingProfileType)
-        {
-            services.AddMediatR(cfg => 
-                cfg.RegisterServicesFromAssembly(mediatorAssemblyMarker.Assembly));
-            
-            services.AddAutoMapper(cfg => { }, mappingProfileType.Assembly);
-            
-            services.AddValidatorsFromAssembly(validatorAssemblyMarker.Assembly);
-            
-            services.AddTransient(
-                typeof(IPipelineBehavior<,>), 
-                typeof(ValidationBehavior<,>));
-            
-            return services;
-        }
+        return services;
+    }
 
-        public static IServiceCollection AddJwtAuthentication(
-            this IServiceCollection services,
-            IConfiguration configuration)
-        {
-            var jwtSettings = configuration.GetSection("JwtSettings");
-            services.Configure<JwtSettings>(jwtSettings);
+    public static IServiceCollection AddMediatorWithValidation(
+        this IServiceCollection services,
+        Type mediatorAssemblyMarker,
+        Type validatorAssemblyMarker,
+        Type mappingProfileType)
+    {
+        services.AddMediatR(cfg =>
+            cfg.RegisterServicesFromAssembly(mediatorAssemblyMarker.Assembly));
 
-            services.AddAuthentication(options =>
+        services.AddAutoMapper(cfg => { }, mappingProfileType.Assembly);
+
+        services.AddValidatorsFromAssembly(validatorAssemblyMarker.Assembly);
+
+        services.AddTransient(
+            typeof(IPipelineBehavior<,>),
+            typeof(ValidationBehavior<,>));
+
+        return services;
+    }
+
+    public static IServiceCollection AddJwtAuthentication(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var jwtSettings = configuration.GetSection("JwtSettings");
+        services.Configure<JwtSettings>(jwtSettings);
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            var key = jwtSettings["Key"];
+            if (string.IsNullOrEmpty(key))
+                throw new InvalidOperationException("JWT Key is missing in configuration.");
+
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+            };
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddRoleBasedAuthorization(
+        this IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("FreelancerOnly", policy =>
+                policy.RequireRole("Freelancer"));
+            options.AddPolicy("ClientOnly", policy =>
+                policy.RequireRole("Client"));
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddOpenTelemetryObservability(
+        this IServiceCollection services,
+        string otelEndpoint,
+        string serviceName,
+        ResourceBuilder resourceBuilder)
+    {
+        services.AddOpenTelemetry()
+            .ConfigureResource(rb => rb.AddService(
+                serviceName: serviceName,
+                serviceVersion: "1.0.0"))
+            .WithTracing(tracing =>
+            {
+                tracing
+                    .AddAspNetCoreInstrumentation(opts =>
+                    {
+                        opts.RecordException = true;
+                    })
+                    .AddHttpClientInstrumentation()
+                    .AddEntityFrameworkCoreInstrumentation(options =>
+                    {
+                        options.EnrichWithIDbCommand = (activity, command) =>
+                        {
+                            activity.SetTag("db.statement", command.CommandText);
+                        };
+                    })
+                    .AddSource(serviceName)
+                    .AddOtlpExporter(o =>
+                    {
+                        o.Endpoint = new Uri(otelEndpoint);
+                    });
             })
-            .AddJwtBearer(options =>
+            .WithMetrics(metrics =>
             {
-                var key = jwtSettings["Key"];
-                if (string.IsNullOrEmpty(key))
-                    throw new InvalidOperationException("JWT Key is missing in configuration.");
-
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["Issuer"],
-                    ValidAudience = jwtSettings["Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-                };
+                metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddProcessInstrumentation()
+                    .AddEventCountersInstrumentation(c =>
+                    {
+                        c.AddEventSources("Microsoft.AspNetCore.Hosting");
+                    })
+                    .AddOtlpExporter(o =>
+                    {
+                        o.Endpoint = new Uri(otelEndpoint);
+                    });
             });
 
-            return services;
-        }
+        return services;
+    }
 
-        public static IServiceCollection AddRoleBasedAuthorization(
-            this IServiceCollection services)
+    public static ILoggingBuilder AddOpenTelemetryLogging(
+        this ILoggingBuilder logging,
+        string otelEndpoint,
+        ResourceBuilder resourceBuilder)
+    {
+        logging.ClearProviders();
+        logging.AddConsole();
+
+        logging.AddOpenTelemetry(options =>
         {
-            services.AddAuthorization(options =>
+            options.SetResourceBuilder(resourceBuilder);
+            options.IncludeScopes = true;
+            options.IncludeFormattedMessage = true;
+            options.ParseStateValues = true;
+            options.AddOtlpExporter(otlpOptions =>
             {
-                options.AddPolicy("FreelancerOnly", 
-                    policy => policy.RequireRole("Freelancer"));
-                options.AddPolicy("ClientOnly", 
-                    policy => policy.RequireRole("Client"));
+                otlpOptions.Endpoint = new Uri(otelEndpoint);
             });
+        });
 
-            return services;
-        }
+        return logging;
+    }
 
-        public static IServiceCollection AddOpenTelemetryObservability(
-            this IServiceCollection services,
-            string otelEndpoint,
-            string serviceName,
-            ResourceBuilder resourceBuilder)
+    public static IServiceCollection AddOpenApiWithJwtAuth(
+        this IServiceCollection services,
+        string title,
+        string version = "v1")
+    {
+        services.AddOpenApi(version, options =>
         {
-            services.AddOpenTelemetry()
-                .ConfigureResource(rb => rb.AddService(
-                    serviceName: serviceName, 
-                    serviceVersion: "1.0.0"))
-                .WithTracing(tracing =>
-                {
-                    tracing
-                        .AddAspNetCoreInstrumentation(opts =>
-                        {
-                            opts.RecordException = true;
-                        })
-                        .AddHttpClientInstrumentation()
-                        .AddEntityFrameworkCoreInstrumentation(options =>
-                        {
-                            options.EnrichWithIDbCommand = (activity, command) =>
-                            {
-                                activity.SetTag("db.statement", command.CommandText);
-                            };
-                        })
-                        .AddSource(serviceName)
-                        .AddOtlpExporter(o =>
-                        {
-                            o.Endpoint = new Uri(otelEndpoint);
-                        });
-                })
-                .WithMetrics(metrics =>
-                {
-                    metrics
-                        .AddAspNetCoreInstrumentation()
-                        .AddHttpClientInstrumentation()
-                        .AddRuntimeInstrumentation()
-                        .AddProcessInstrumentation()
-                        .AddEventCountersInstrumentation(c =>
-                        {
-                            c.AddEventSources("Microsoft.AspNetCore.Hosting");
-                        })
-                        .AddOtlpExporter(o =>
-                        {
-                            o.Endpoint = new Uri(otelEndpoint);
-                        });
-                });
-
-            return services;
-        }
-
-        public static ILoggingBuilder AddOpenTelemetryLogging(
-            this ILoggingBuilder logging,
-            string otelEndpoint,
-            ResourceBuilder resourceBuilder)
-        {
-            logging.ClearProviders();
-            logging.AddConsole();
-            logging.AddOpenTelemetry(options =>
+            options.AddDocumentTransformer((document, context, cancellationToken) =>
             {
-                options.SetResourceBuilder(resourceBuilder);
-                options.IncludeScopes = true;
-                options.IncludeFormattedMessage = true;
-                options.ParseStateValues = true;
-                options.AddOtlpExporter(otlpOptions =>
-                {
-                    otlpOptions.Endpoint = new Uri(otelEndpoint);
-                });
-            });
+                document.Info.Title = title;
+                document.Info.Version = version;
 
-            return logging;
-        }
+                // Add JWT Bearer authentication scheme
+                document.Components ??= new OpenApiComponents();
+                document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
 
-        public static IServiceCollection AddSwaggerWithJwtAuth(
-            this IServiceCollection services,
-            string title,
-            string version = "v1")
-        {
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc(version, new OpenApiInfo { Title = title, Version = version });
-
-                var securityScheme = new OpenApiSecurityScheme
+                document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Description = "Enter JWT Bearer token **_only_**",
@@ -193,28 +201,43 @@ namespace Shared.Api.Extensions;
                     }
                 };
 
-                options.AddSecurityDefinition("Bearer", securityScheme);
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                // Add security requirement
+                document.SecurityRequirements = new List<OpenApiSecurityRequirement>
                 {
-                    { securityScheme, Array.Empty<string>() }
-                });
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    }
+                };
+
+                return Task.CompletedTask;
             });
+        });
 
-            return services;
-        }
-
-        public static ResourceBuilder CreateServiceResourceBuilder(
-            string serviceName,
-            string environmentName,
-            string serviceVersion = "1.0.0")
-        {
-            return ResourceBuilder.CreateDefault()
-                .AddService(serviceName: serviceName, serviceVersion: serviceVersion)
-                .AddAttributes(new[]
-                {
-                    new KeyValuePair<string, object>("deployment.environment", environmentName),
-                    new KeyValuePair<string, object>("service.namespace", "freelance"),
-                });
-        }
+        return services;
     }
 
+    public static ResourceBuilder CreateServiceResourceBuilder(
+        string serviceName,
+        string environmentName,
+        string serviceVersion = "1.0.0")
+    {
+        return ResourceBuilder.CreateDefault()
+            .AddService(serviceName: serviceName, serviceVersion: serviceVersion)
+            .AddAttributes(new[]
+            {
+                new KeyValuePair<string, object>("deployment.environment", environmentName),
+                new KeyValuePair<string, object>("service.namespace", "freelance"),
+            });
+    }
+}
