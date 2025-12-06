@@ -3,10 +3,10 @@
   <TargetFramework>net9.0</TargetFramework>
   <ImplicitUsings>enable</ImplicitUsings>
   <Nullable>enable</Nullable>
-  <Version>1.0.1</Version>
+  <Version>1.0.0</Version>
   <Authors>ionut1912</Authors>
   <Company>Shared</Company>
-  <PackageId>Shared.Domain</PackageId>
+  <PackageId>Shared.DomainLayer</PackageId>
   <Description>Shared domain layer for  microservices</Description>
   <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   <IncludeSymbols>true</IncludeSymbols>
@@ -14,4 +14,8 @@
   <GenerateDocumentationFile>true</GenerateDocumentationFile>
   <DocumentationFile>bin\Release\net9.0\Shared.Domain.xml</DocumentationFile>
 </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+	</ItemGroup>
 </Project>
+

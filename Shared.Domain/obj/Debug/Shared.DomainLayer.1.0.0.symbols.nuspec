@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.DomainLayer</id>
+    <version>1.0.0</version>
+    <authors>ionut1912</authors>
+    <description>Shared domain layer for  microservices</description>
+    <repository type="git" commit="7336b484ab58aca2a7f21d226f0138590db64526" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Microsoft.EntityFrameworkCore" version="9.0.11" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.pdb" target="lib\net9.0\Shared.Domain.pdb" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.dll" target="lib\net9.0\Shared.Domain.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.xml" target="lib\net9.0\Shared.Domain.xml" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\Common\Entity.cs" target="src\Shared.Domain\Common\Entity.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\Common\ValidationError.cs" target="src\Shared.Domain\Common\ValidationError.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\Common\ValueObject.cs" target="src\Shared.Domain\Common\ValueObject.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\Exceptions\CustomValidationException.cs" target="src\Shared.Domain\Exceptions\CustomValidationException.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\Interfaces\IUnitOfWork.cs" target="src\Shared.Domain\Interfaces\IUnitOfWork.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\obj\Debug\net9.0\Shared.Domain.GlobalUsings.g.cs" target="src\Shared.Domain\obj\Debug\net9.0\Shared.Domain.GlobalUsings.g.cs" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\Shared.Domain.csproj" target="src\Shared.Domain\Shared.Domain.csproj" />
+  </files>
+</package>

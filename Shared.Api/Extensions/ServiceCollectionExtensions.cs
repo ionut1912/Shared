@@ -14,7 +14,6 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Shared.Application.Behaviours;
 using Shared.Infra.Settings;
-
 namespace Shared.Api.Extensions;
 
   public static class ServiceCollectionExtensions

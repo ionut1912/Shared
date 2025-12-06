@@ -1,6 +1,8 @@
-﻿namespace Shared.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 
-public interface IUnitOfWork<T>
+namespace Shared.Domain.Interfaces;
+
+public interface IUnitOfWork<T> where T : DbContext
 {    
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
     

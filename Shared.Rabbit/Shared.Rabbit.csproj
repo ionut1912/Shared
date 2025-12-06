@@ -7,7 +7,7 @@
 		<Version>1.0.0</Version>
 		<Authors>ionut1912</Authors>
 		<Company>Shared</Company>
-		<PackageId>Shared.Rabbit</PackageId>
+		<PackageId>Shared.RabbitLayer</PackageId>
 		<Description>Shared RabbitMq layer for  microservices</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeSymbols>true</IncludeSymbols>
