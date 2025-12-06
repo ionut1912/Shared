@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Shared.RabbitMq.Repositories;
-using Shared.RabbitMq.Settings;
+using Shared.Rabbit.Repositories;
+using Shared.Rabbit.Settings;
 using System.Text;
 
 
-namespace Shared.RabbitMq.Services;
+namespace Shared.Rabbit.Services;
 
 public class RabbitMqEventBus : IEventBus, IDisposable
 {

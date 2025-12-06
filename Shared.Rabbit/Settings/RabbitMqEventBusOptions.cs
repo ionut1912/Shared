@@ -1,5 +1,4 @@
-﻿
-namespace Shared.RabbitMq.Settings;
+﻿namespace Shared.Rabbit.Settings;
 
 public class RabbitMqEventBusOptions
 {

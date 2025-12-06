@@ -1,4 +1,4 @@
-﻿namespace Shared.RabbitMq.Repositories;
+﻿namespace Shared.Rabbit.Repositories;
 
 public interface IEvent
 {

@@ -164,3 +164,6 @@
 /Shared.Api/obj/project.assets.json
 /Shared.Api/obj/project.nuget.cache
 /Shared.Api/obj/Shared.Api.csproj.nuget.dgspec.json
+/Shared.Rabbit/bin/Release
+/Shared.Rabbit/obj/Debug/net9.0
+/Shared.Rabbit/obj

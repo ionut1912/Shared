@@ -1,5 +1,4 @@
-﻿
-namespace Shared.RabbitMq.Repositories
+﻿namespace Shared.Rabbit.Repositories
 {
     public interface IEventHandler<in T> where T : IEvent
     {
