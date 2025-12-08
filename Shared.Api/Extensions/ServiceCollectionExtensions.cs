@@ -1,7 +1,5 @@
 ﻿using System.Text;
-using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,28 +15,6 @@ namespace Shared.Api.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDatabaseContext<TContext>(
-        this IServiceCollection services,
-        IConfiguration configuration) where TContext : DbContext
-    {
-        services.AddDbContext<TContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
-
-        return services;
-    }
-
-    public static IServiceCollection AddValidatorsWithAutoMapper(
-        this IServiceCollection services,
-        Type validatorAssemblyMarker,
-        Type mappingProfileType)
-    {
-
-        services.AddAutoMapper(cfg => { }, mappingProfileType.Assembly);
-
-        services.AddValidatorsFromAssembly(validatorAssemblyMarker.Assembly);
-
-        return services;
-    }
 
     public static IServiceCollection AddJwtAuthentication(
         this IServiceCollection services,

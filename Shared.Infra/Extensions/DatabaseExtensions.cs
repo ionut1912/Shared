@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shared.Infra.Extensions;
@@ -26,5 +27,15 @@ public static class DatabaseExtension
         {
             Console.WriteLine($"An error occurred while checking/applying migrations: {ex.Message}");
         }
+    }
+
+    public static IServiceCollection AddDatabaseContext<TContext>(
+    this IServiceCollection services,
+    IConfiguration configuration) where TContext : DbContext
+    {
+        services.AddDbContext<TContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+        return services;
     }
 }
