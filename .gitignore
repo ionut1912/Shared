@@ -196,3 +196,13 @@
 /Shared.Api/obj/Release/net9.0/Shared.Api.sourcelink.json
 /Shared.Domain/obj/Release/net9.0/Shared.Domain.GlobalUsings.g.cs
 /Shared.Api/obj/Debug/net9.0/Shared.Api.assets.cache
+/Shared.Application/obj/Release
+/Shared.Domain/bin/Debug/net9.0/Shared.Domain.xml
+/Shared.Domain/bin/Debug/Shared.DomainLayer.1.0.0.nupkg
+/Shared.Domain/bin/Debug/Shared.DomainLayer.1.0.0.symbols.nupkg
+/Shared.Infra/obj/Debug/Shared.InfraLayer.1.0.0.nuspec
+/Shared.Infra/bin/Debug/net9.0/Shared.Infra.xml
+/Shared.Infra/obj/Debug/Shared.InfraLayer.1.0.0.symbols.nuspec
+/Shared.Domain/obj/Debug/Shared.DomainLayer.1.0.0.symbols.nuspec
+/Shared.Domain/obj/Debug/net9.0/Shared.Domain.csproj.AssemblyReference.cache
+/Shared.Domain/obj/Debug/Shared.DomainLayer.1.0.0.nuspec

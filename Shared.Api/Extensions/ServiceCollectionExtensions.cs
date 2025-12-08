@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +11,6 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Shared.Application.Behaviours;
 using Shared.Infra.Settings;
 
 namespace Shared.Api.Extensions;
@@ -29,22 +27,15 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddMediatorWithValidation(
+    public static IServiceCollection AddValidatorsWithAutoMapper(
         this IServiceCollection services,
-        Type mediatorAssemblyMarker,
         Type validatorAssemblyMarker,
         Type mappingProfileType)
     {
-        services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssembly(mediatorAssemblyMarker.Assembly));
 
         services.AddAutoMapper(cfg => { }, mappingProfileType.Assembly);
 
         services.AddValidatorsFromAssembly(validatorAssemblyMarker.Assembly);
-
-        services.AddTransient(
-            typeof(IPipelineBehavior<,>),
-            typeof(ValidationBehavior<,>));
 
         return services;
     }

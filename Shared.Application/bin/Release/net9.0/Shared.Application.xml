@@ -4,5 +4,126 @@
         <name>Shared.Application</name>
     </assembly>
     <members>
+        <member name="T:Shared.Application.Behaviours.ValidationBehavior`2">
+            <summary>
+            Pipeline behavior that validates requests using FluentValidation before they reach the handler
+            </summary>
+            <typeparam name="TRequest">The type of request being validated</typeparam>
+            <typeparam name="TResponse">The type of response from the handler</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.ICommand`1">
+            <summary>
+            Marker interface for commands that return a response
+            </summary>
+            <typeparam name="TResponse">The type of response</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.ICommand">
+            <summary>
+            Marker interface for commands that don't return a response
+            </summary>
+        </member>
+        <member name="T:Shared.Application.Mediator.ICommandHandler`2">
+            <summary>
+            Defines a handler for a command
+            </summary>
+            <typeparam name="TCommand">The type of command being handled</typeparam>
+            <typeparam name="TResponse">The type of response from the handler</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.ICommandHandler`1">
+            <summary>
+            Defines a handler for a command that doesn't return a response
+            </summary>
+            <typeparam name="TCommand">The type of command being handled</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.IMediator">
+            <summary>
+            Defines a mediator to encapsulate request/response and publishing interaction patterns
+            </summary>
+        </member>
+        <member name="M:Shared.Application.Mediator.IMediator.Send``1(Shared.Application.Mediator.IRequest{``0},System.Threading.CancellationToken)">
+            <summary>
+            Send a request to a single handler
+            </summary>
+            <typeparam name="TResponse">Response type</typeparam>
+            <param name="request">Request object</param>
+            <param name="cancellationToken">Optional cancellation token</param>
+            <returns>A task that represents the send operation. The task result contains the handler response</returns>
+        </member>
+        <member name="T:Shared.Application.Mediator.IQuery`1">
+            <summary>
+            Marker interface for queries that return a response
+            Queries should not modify state
+            </summary>
+            <typeparam name="TResponse">The type of response</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.IQueryHandler`2">
+            <summary>
+            Defines a handler for a query
+            </summary>
+            <typeparam name="TQuery">The type of query being handled</typeparam>
+            <typeparam name="TResponse">The type of response from the handler</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.IRequest`1">
+            <summary>
+            Marker interface for requests that return a response
+            </summary>
+            <typeparam name="TResponse">The type of response</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.IRequest">
+            <summary>
+            Marker interface for requests that don't return a response
+            </summary>
+        </member>
+        <member name="T:Shared.Application.Mediator.IRequestHandler`2">
+            <summary>
+            Defines a handler for a request
+            </summary>
+            <typeparam name="TRequest">The type of request being handled</typeparam>
+            <typeparam name="TResponse">The type of response from the handler</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.IRequestHandler`1">
+            <summary>
+            Defines a handler for a request that doesn't return a response
+            </summary>
+            <typeparam name="TRequest">The type of request being handled</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.Mediator">
+            <summary>
+            Default mediator implementation that resolves handlers from the DI container
+            </summary>
+        </member>
+        <member name="M:Shared.Application.Mediator.MediatorServiceCollectionExtensions.AddMediator(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly[])">
+            <summary>
+            Registers the mediator and all handlers from the specified assemblies
+            </summary>
+        </member>
+        <member name="T:Shared.Application.Mediator.RequestHandlerDelegate`1">
+            <summary>
+            Represents a handler delegate for the next step in the pipeline
+            </summary>
+            <typeparam name="TResponse">The response type</typeparam>
+        </member>
+        <member name="T:Shared.Application.Mediator.IPipelineBehavior`2">
+            <summary>
+            Pipeline behavior to surround the inner handler
+            Implementations add additional behavior and await the next delegate
+            </summary>
+            <typeparam name="TRequest">The request type</typeparam>
+            <typeparam name="TResponse">The response type</typeparam>
+        </member>
+        <member name="M:Shared.Application.Mediator.IPipelineBehavior`2.Handle(`0,Shared.Application.Mediator.RequestHandlerDelegate{`1},System.Threading.CancellationToken)">
+            <summary>
+            Pipeline handler. Perform any additional behavior and await the next delegate as necessary
+            </summary>
+            <param name="request">Incoming request</param>
+            <param name="next">Awaitable delegate for the next action in the pipeline</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Awaitable task returning the response</returns>
+        </member>
+        <member name="T:Shared.Application.Mediator.Unit">
+            <summary>
+            Represents a void type, since void is not a valid return type in C#
+            </summary>
+        </member>
     </members>
 </doc>
