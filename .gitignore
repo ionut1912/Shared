@@ -206,3 +206,5 @@
 /Shared.Domain/obj/Debug/Shared.DomainLayer.1.0.0.symbols.nuspec
 /Shared.Domain/obj/Debug/net9.0/Shared.Domain.csproj.AssemblyReference.cache
 /Shared.Domain/obj/Debug/Shared.DomainLayer.1.0.0.nuspec
+/Shared.Api/obj/Shared.Api.csproj.nuget.g.props
+/Shared.Api/obj/Shared.Api.csproj.nuget.g.targets
