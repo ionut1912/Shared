@@ -4,5 +4,160 @@
         <name>Shared.Domain</name>
     </assembly>
     <members>
+        <member name="T:Shared.Domain.Common.Entity">
+            <summary>
+            Represents a base domain entity with a unique identifier and audit information.
+            </summary>
+        </member>
+        <member name="P:Shared.Domain.Common.Entity.Id">
+            <summary>
+            Gets the unique identifier of the entity.
+            </summary>
+        </member>
+        <member name="P:Shared.Domain.Common.Entity.CreatedAt">
+            <summary>
+            Gets the UTC timestamp when the entity was created.
+            </summary>
+        </member>
+        <member name="P:Shared.Domain.Common.Entity.UpdatedAt">
+            <summary>
+            Gets the UTC timestamp when the entity was last updated, if any.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Common.Entity.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Domain.Common.Entity"/> class
+            with a new unique identifier and sets the creation timestamp to UTC now.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Common.Entity.#ctor(System.Guid)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Domain.Common.Entity"/> class with the specified identifier.
+            </summary>
+            <param name="id">The unique identifier to assign to the entity.</param>
+        </member>
+        <member name="M:Shared.Domain.Common.Entity.Equals(System.Object)">
+            <summary>
+            Determines whether the specified object is equal to the current entity.
+            Entities are considered equal if they are of the same type and have the same <see cref="P:Shared.Domain.Common.Entity.Id"/>.
+            </summary>
+            <param name="obj">The object to compare with the current entity.</param>
+            <returns><c>true</c> if the specified object is equal to the current entity; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.Entity.GetHashCode">
+            <summary>
+            Returns a hash code for the entity based on its <see cref="P:Shared.Domain.Common.Entity.Id"/>.
+            </summary>
+            <returns>A hash code for the current entity.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.Entity.op_Equality(Shared.Domain.Common.Entity,Shared.Domain.Common.Entity)">
+            <summary>
+            Determines whether two entities are equal.
+            </summary>
+            <param name="a">The first entity.</param>
+            <param name="b">The second entity.</param>
+            <returns><c>true</c> if the entities are equal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.Entity.op_Inequality(Shared.Domain.Common.Entity,Shared.Domain.Common.Entity)">
+            <summary>
+            Determines whether two entities are not equal.
+            </summary>
+            <param name="a">The first entity.</param>
+            <param name="b">The second entity.</param>
+            <returns><c>true</c> if the entities are not equal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:Shared.Domain.Common.ValidationError">
+            <summary>
+            Represents a validation failure for a specific property.
+            </summary>
+            <param name="Property">The name of the property that failed validation.</param>
+            <param name="ErrorMessage">The validation error message associated with the property.</param>
+        </member>
+        <member name="M:Shared.Domain.Common.ValidationError.#ctor(System.String,System.String)">
+            <summary>
+            Represents a validation failure for a specific property.
+            </summary>
+            <param name="Property">The name of the property that failed validation.</param>
+            <param name="ErrorMessage">The validation error message associated with the property.</param>
+        </member>
+        <member name="P:Shared.Domain.Common.ValidationError.Property">
+            <summary>The name of the property that failed validation.</summary>
+        </member>
+        <member name="P:Shared.Domain.Common.ValidationError.ErrorMessage">
+            <summary>The validation error message associated with the property.</summary>
+        </member>
+        <member name="T:Shared.Domain.Common.ValueObject">
+            <summary>
+            Represents a base class for value objects in the domain.
+            Value objects are compared based on their properties rather than identity.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Common.ValueObject.GetEqualityComponents">
+            <summary>
+            Returns an ordered collection of the components that define equality for this value object.
+            </summary>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> of components used for equality comparison.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.ValueObject.Equals(System.Object)">
+            <summary>
+            Determines whether the specified object is equal to the current value object.
+            Equality is based on the values of the components returned by <see cref="M:Shared.Domain.Common.ValueObject.GetEqualityComponents"/>.
+            </summary>
+            <param name="obj">The object to compare with the current value object.</param>
+            <returns><c>true</c> if the specified object is equal to the current value object; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.ValueObject.GetHashCode">
+            <summary>
+            Returns a hash code for this value object based on its equality components.
+            </summary>
+            <returns>A hash code for the current value object.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.ValueObject.op_Equality(Shared.Domain.Common.ValueObject,Shared.Domain.Common.ValueObject)">
+            <summary>
+            Determines whether two value objects are equal.
+            </summary>
+            <param name="left">The first value object.</param>
+            <param name="right">The second value object.</param>
+            <returns><c>true</c> if the value objects are equal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.ValueObject.op_Inequality(Shared.Domain.Common.ValueObject,Shared.Domain.Common.ValueObject)">
+            <summary>
+            Determines whether two value objects are not equal.
+            </summary>
+            <param name="left">The first value object.</param>
+            <param name="right">The second value object.</param>
+            <returns><c>true</c> if the value objects are not equal; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:Shared.Domain.Exceptions.CustomValidationException">
+            <summary>
+            Represents an exception that occurs when one or more validation errors are detected.
+            </summary>
+        </member>
+        <member name="P:Shared.Domain.Exceptions.CustomValidationException.ValidationErrors">
+            <summary>
+            Gets the list of validation errors that caused this exception.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Exceptions.CustomValidationException.#ctor(System.Collections.Generic.List{Shared.Domain.Common.ValidationError})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Domain.Exceptions.CustomValidationException"/> class
+            with the specified validation errors.
+            </summary>
+            <param name="validationErrors">The collection of <see cref="T:Shared.Domain.Common.ValidationError"/> instances that describe the validation failures.</param>
+        </member>
+        <member name="T:Shared.Domain.Interfaces.IUnitOfWork`1">
+            <summary>
+            Represents a unit of work pattern for a database context.
+            Encapsulates transaction management and ensures that changes are saved atomically.
+            </summary>
+            <typeparam name="T">The type of <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> used by this unit of work.</typeparam>
+        </member>
+        <member name="M:Shared.Domain.Interfaces.IUnitOfWork`1.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Saves all changes made in the current unit of work to the database asynchronously.
+            </summary>
+            <param name="cancellationToken">A token to observe while waiting for the operation to complete.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous save operation.</returns>
+        </member>
     </members>
 </doc>

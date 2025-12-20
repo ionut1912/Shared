@@ -1,16 +1,26 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
+using System.Diagnostics;
 
 namespace Shared.Api.Extensions;
 
+/// <summary>
+/// Provides extension methods for configuring the application's middleware pipeline and endpoints.
+/// </summary>
 public static class ApplicationBuilderExtensions
 {
+    /// <summary>
+    /// Adds a global exception handler middleware to the application's request pipeline.
+    /// Logs unhandled exceptions and delegates handling to the registered <see cref="IExceptionHandler"/>.
+    /// </summary>
+    /// <typeparam name="T">The type used for logging context.</typeparam>
+    /// <param name="app">The application builder.</param>
+    /// <returns>The application builder.</returns>
     public static IApplicationBuilder UseGlobalExceptionHandler<T>(
         this IApplicationBuilder app) where T : class
     {
@@ -36,6 +46,12 @@ public static class ApplicationBuilderExtensions
         return app;
     }
 
+    /// <summary>
+    /// Adds middleware to log the duration of each HTTP request, including route and status code.
+    /// </summary>
+    /// <typeparam name="T">The type used for logging context.</typeparam>
+    /// <param name="app">The application builder.</param>
+    /// <returns>The application builder.</returns>
     public static IApplicationBuilder UseRequestDurationLogging<T>(
         this IApplicationBuilder app) where T : class
     {
@@ -83,6 +99,11 @@ public static class ApplicationBuilderExtensions
         return app;
     }
 
+    /// <summary>
+    /// Adds standard middleware components to the application's request pipeline, including routing, authentication, and authorization.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
+    /// <returns>The application builder.</returns>
     public static IApplicationBuilder UseStandardMiddleware(
         this IApplicationBuilder app)
     {
@@ -93,6 +114,12 @@ public static class ApplicationBuilderExtensions
         return app;
     }
 
+    /// <summary>
+    /// Maps API documentation endpoints, including OpenAPI and Scalar API reference UI, to the application's endpoint routing pipeline.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
+    /// <param name="configureScalar">An optional action to configure <see cref="ScalarOptions"/> for the Scalar API reference UI.</param>
+    /// <returns>The application builder.</returns>
     public static IApplicationBuilder MapApiDocumentation(
         this IApplicationBuilder app,
         Action<ScalarOptions>? configureScalar = null)
@@ -118,6 +145,11 @@ public static class ApplicationBuilderExtensions
         return app;
     }
 
+    /// <summary>
+    /// Maps standard endpoints such as health checks and metrics to the application's endpoint routing pipeline.
+    /// </summary>
+    /// <param name="app">The application builder.</param>
+    /// <returns>The application builder.</returns>
     public static IApplicationBuilder MapStandardEndpoints(
         this IApplicationBuilder app)
     {

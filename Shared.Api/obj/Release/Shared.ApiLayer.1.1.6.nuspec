@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.ApiLayer</id>
+    <version>1.1.6</version>
+    <authors>ionut1912</authors>
+    <description>Shared api layer for  microservices</description>
+    <repository type="git" commit="31b1087e3a4eafffe3022b0ebe42c4c2f70a41c8" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="9.0.11" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.OpenApi" version="9.0.11" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Exporter.OpenTelemetryProtocol" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Extensions.Hosting" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.AspNetCore" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.EntityFrameworkCore" version="1.14.0-beta.2" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.EventCounters" version="1.14.0-alpha.1" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Http" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Process" version="1.14.0-beta.2" exclude="Build,Analyzers" />
+        <dependency id="OpenTelemetry.Instrumentation.Runtime" version="1.14.0" exclude="Build,Analyzers" />
+        <dependency id="Scalar.AspNetCore" version="2.11.1" exclude="Build,Analyzers" />
+        <dependency id="Shared.ApplicationLayer" version="1.0.2" exclude="Build,Analyzers" />
+        <dependency id="Shared.InfraLayer" version="1.0.2" exclude="Build,Analyzers" />
+        <dependency id="System.IdentityModel.Tokens.Jwt" version="8.14.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release\net9.0\Shared.Api.dll" target="lib\net9.0\Shared.Api.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release\net9.0\Shared.Api.xml" target="lib\net9.0\Shared.Api.xml" />
+  </files>
+</package>

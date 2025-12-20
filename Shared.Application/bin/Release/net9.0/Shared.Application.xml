@@ -6,10 +6,44 @@
     <members>
         <member name="T:Shared.Application.Behaviours.ValidationBehavior`2">
             <summary>
-            Pipeline behavior that validates requests using FluentValidation before they reach the handler
+            Pipeline behavior that validates requests using FluentValidation before they reach the request handler.
             </summary>
-            <typeparam name="TRequest">The type of request being validated</typeparam>
-            <typeparam name="TResponse">The type of response from the handler</typeparam>
+            <typeparam name="TRequest">The type of request being validated.</typeparam>
+            <typeparam name="TResponse">The type of response returned by the handler.</typeparam>
+        </member>
+        <member name="M:Shared.Application.Behaviours.ValidationBehavior`2.#ctor(System.Collections.Generic.IEnumerable{FluentValidation.IValidator{`0}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Application.Behaviours.ValidationBehavior`2"/> class.
+            </summary>
+            <param name="validators">A collection of validators for the request type.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="validators"/> is null.</exception>
+        </member>
+        <member name="M:Shared.Application.Behaviours.ValidationBehavior`2.Handle(`0,Shared.Application.Mediator.RequestHandlerDelegate{`1},System.Threading.CancellationToken)">
+            <summary>
+            Handles the validation of the request before invoking the next handler in the pipeline.
+            </summary>
+            <param name="request">The request to validate.</param>
+            <param name="next">The delegate to invoke the next handler in the pipeline.</param>
+            <param name="cancellationToken">A cancellation token for async operations.</param>
+            <returns>The response from the next handler if validation succeeds.</returns>
+            <exception cref="T:Shared.Domain.Exceptions.CustomValidationException">
+            Thrown when one or more validation failures occur.
+            Contains a list of <see cref="T:Shared.Domain.Common.ValidationError"/> objects describing the failures.
+            </exception>
+        </member>
+        <member name="T:Shared.Application.Extensions.DependencyInjection">
+            <summary>
+            Provides extension methods for registering application services with the dependency injection container.
+            </summary>
+        </member>
+        <member name="M:Shared.Application.Extensions.DependencyInjection.AddApplicationServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly,System.Reflection.Assembly)">
+            <summary>
+            Registers MediatR handlers and FluentValidation validators from the specified assemblies.
+            </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="mediatorAssembly">The assembly containing MediatR request handlers.</param>
+            <param name="validationAssembly">The assembly containing FluentValidation validators.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
         </member>
         <member name="T:Shared.Application.Mediator.ICommand`1">
             <summary>
@@ -92,10 +126,28 @@
             Default mediator implementation that resolves handlers from the DI container
             </summary>
         </member>
+        <member name="T:Shared.Application.Mediator.MediatorServiceCollectionExtensions">
+            <summary>
+            Provides extension methods to register MediatR-style mediator services and their handlers in the DI container.
+            </summary>
+        </member>
         <member name="M:Shared.Application.Mediator.MediatorServiceCollectionExtensions.AddMediator(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly[])">
             <summary>
-            Registers the mediator and all handlers from the specified assemblies
+            Registers the <see cref="T:Shared.Application.Mediator.IMediator"/> implementation, request handlers, and pipeline behaviors
+            from the specified assemblies.
             </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="assemblies">Assemblies to scan for request handlers and pipeline behaviors.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
+            <remarks>
+            This method automatically registers:
+            <list type="bullet">
+            <item><description>The <see cref="T:Shared.Application.Mediator.IMediator"/> implementation.</description></item>
+            <item><description>All classes implementing <see cref="T:Shared.Application.Mediator.IRequestHandler`2"/> from the provided assemblies.</description></item>
+            <item><description>All classes implementing <see cref="T:Shared.Application.Mediator.IPipelineBehavior`2"/> from the provided assemblies.</description></item>
+            </list>
+            All services are registered with scoped lifetime.
+            </remarks>
         </member>
         <member name="T:Shared.Application.Mediator.RequestHandlerDelegate`1">
             <summary>
@@ -122,8 +174,68 @@
         </member>
         <member name="T:Shared.Application.Mediator.Unit">
             <summary>
-            Represents a void type, since void is not a valid return type in C#
+            Represents a void-like type, used when a method or request does not return a value.
             </summary>
+            <remarks>
+            Since C# does not allow <c>void</c> as a generic type parameter, <see cref="T:Shared.Application.Mediator.Unit"/> can be used
+            to represent an empty return type in generic contexts, such as MediatR requests.
+            </remarks>
+        </member>
+        <member name="F:Shared.Application.Mediator.Unit.Value">
+            <summary>
+            Singleton instance of <see cref="T:Shared.Application.Mediator.Unit"/>.
+            </summary>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.CompareTo(Shared.Application.Mediator.Unit)">
+            <summary>
+            Compares this instance to another <see cref="T:Shared.Application.Mediator.Unit"/> instance.
+            Always returns 0 since all <see cref="T:Shared.Application.Mediator.Unit"/> instances are equal.
+            </summary>
+            <param name="other">The other <see cref="T:Shared.Application.Mediator.Unit"/> instance to compare.</param>
+            <returns>0, indicating equality.</returns>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.Equals(Shared.Application.Mediator.Unit)">
+            <summary>
+            Determines whether this instance is equal to another <see cref="T:Shared.Application.Mediator.Unit"/> instance.
+            </summary>
+            <param name="other">The other <see cref="T:Shared.Application.Mediator.Unit"/> instance.</param>
+            <returns><c>true</c> since all <see cref="T:Shared.Application.Mediator.Unit"/> instances are considered equal.</returns>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.Equals(System.Object)">
+            <summary>
+            Determines whether this instance is equal to the specified object.
+            </summary>
+            <param name="obj">The object to compare with this instance.</param>
+            <returns><c>true</c> if <paramref name="obj"/> is a <see cref="T:Shared.Application.Mediator.Unit"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            Always returns 0 since all <see cref="T:Shared.Application.Mediator.Unit"/> instances are equal.
+            </summary>
+            <returns>0.</returns>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.op_Equality(Shared.Application.Mediator.Unit,Shared.Application.Mediator.Unit)">
+            <summary>
+            Determines whether two <see cref="T:Shared.Application.Mediator.Unit"/> instances are equal.
+            </summary>
+            <param name="left">The first instance.</param>
+            <param name="right">The second instance.</param>
+            <returns><c>true</c> always.</returns>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.op_Inequality(Shared.Application.Mediator.Unit,Shared.Application.Mediator.Unit)">
+            <summary>
+            Determines whether two <see cref="T:Shared.Application.Mediator.Unit"/> instances are not equal.
+            </summary>
+            <param name="left">The first instance.</param>
+            <param name="right">The second instance.</param>
+            <returns><c>false</c> always.</returns>
+        </member>
+        <member name="M:Shared.Application.Mediator.Unit.ToString">
+            <summary>
+            Returns a string representation of this instance.
+            </summary>
+            <returns>A string representing an empty tuple: "()".</returns>
         </member>
     </members>
 </doc>

@@ -4,5 +4,160 @@
         <name>Shared.Api</name>
     </assembly>
     <members>
+        <member name="T:Shared.Api.Abstractions.IExceptionProblemDetailsMapper">
+            <summary>
+            Defines a contract for mapping exceptions to <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> instances.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Abstractions.IExceptionProblemDetailsMapper.TryMap(System.Exception,Microsoft.AspNetCore.Mvc.ProblemDetails@)">
+            <summary>
+            Attempts to map the specified <paramref name="exception"/> to a <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> instance.
+            </summary>
+            <param name="exception">The exception to map.</param>
+            <param name="problemDetails">When this method returns, contains the mapped <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/>, if the mapping succeeded; otherwise, <c>null</c>.</param>
+            <returns><c>true</c> if the exception was successfully mapped; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:Shared.Api.Extensions.ApplicationBuilderExtensions">
+            <summary>
+            Provides extension methods for configuring the application's middleware pipeline and endpoints.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.UseGlobalExceptionHandler``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds a global exception handler middleware to the application's request pipeline.
+            Logs unhandled exceptions and delegates handling to the registered <see cref="T:Microsoft.AspNetCore.Diagnostics.IExceptionHandler"/>.
+            </summary>
+            <typeparam name="T">The type used for logging context.</typeparam>
+            <param name="app">The application builder.</param>
+            <returns>The application builder.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.UseRequestDurationLogging``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds middleware to log the duration of each HTTP request, including route and status code.
+            </summary>
+            <typeparam name="T">The type used for logging context.</typeparam>
+            <param name="app">The application builder.</param>
+            <returns>The application builder.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.UseStandardMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds standard middleware components to the application's request pipeline, including routing, authentication, and authorization.
+            </summary>
+            <param name="app">The application builder.</param>
+            <returns>The application builder.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.MapApiDocumentation(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Scalar.AspNetCore.ScalarOptions})">
+            <summary>
+            Maps API documentation endpoints, including OpenAPI and Scalar API reference UI, to the application's endpoint routing pipeline.
+            </summary>
+            <param name="app">The application builder.</param>
+            <param name="configureScalar">An optional action to configure <see cref="T:Scalar.AspNetCore.ScalarOptions"/> for the Scalar API reference UI.</param>
+            <returns>The application builder.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.MapStandardEndpoints(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Maps standard endpoints such as health checks and metrics to the application's endpoint routing pipeline.
+            </summary>
+            <param name="app">The application builder.</param>
+            <returns>The application builder.</returns>
+        </member>
+        <member name="T:Shared.Api.Extensions.DependencyInjection">
+            <summary>
+            Provides extension methods for configuring dependency injection, database, repositories, application, and presentation layers,
+            as well as OpenTelemetry and health checks for ASP.NET Core applications.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddOpenTelemetry(Microsoft.AspNetCore.Builder.WebApplicationBuilder,System.String,System.String,System.String)">
+            <summary>
+            Adds OpenTelemetry logging to the specified <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/> using the provided endpoint, service name, and environment name.
+            </summary>
+            <param name="builder">The <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/> to configure.</param>
+            <param name="otelEndpoint">The OpenTelemetry collector endpoint.</param>
+            <param name="serviceName">The name of the service for telemetry identification.</param>
+            <param name="environmentName">The environment name (e.g., Development, Production).</param>
+            <returns>The configured <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/> instance.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddDatabaseConfig``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds and configures the database context of type <typeparamref name="Tdbc"/> to the service collection using the specified configuration.
+            </summary>
+            <typeparam name="Tdbc">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to register.</typeparam>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the database context to.</param>
+            <param name="configuration">The application configuration used for database setup.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddRepositoriesConfig``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds and configures repository services of type <typeparamref name="TRepo"/> with implementation <typeparamref name="TRepoImpl"/> to the service collection.
+            </summary>
+            <typeparam name="TRepo">The interface or base type of the repository.</typeparam>
+            <typeparam name="TRepoImpl">The concrete implementation type of the repository.</typeparam>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the repositories to.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.MigrateDatabaseConfig``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Applies any pending migrations for the database context of type <typeparamref name="TDbc"/> at application startup.
+            </summary>
+            <typeparam name="TDbc">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to migrate.</typeparam>
+            <param name="app">The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> to use for migration.</param>
+            <returns>The configured <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> instance.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddAplicationConfig(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly,System.Reflection.Assembly)">
+            <summary>
+            Adds and configures application services, including MediatR and validation, to the service collection.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the application services to.</param>
+            <param name="mediatorAssembly">The assembly containing MediatR handlers.</param>
+            <param name="validationAssembly">The assembly containing validation logic.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddPresentation``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String,System.String,System.String)">
+            <summary>
+            Adds and configures the presentation layer services, including authentication, authorization, observability, API documentation,
+            exception handling, health checks, and API infrastructure for an ASP.NET Core application.
+            </summary>
+            <typeparam name="T">The type implementing <see cref="T:Shared.Api.Abstractions.IExceptionProblemDetailsMapper"/> for mapping exceptions to problem details.</typeparam>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the presentation services to.</param>
+            <param name="configuration">The application configuration used for authentication and other setup.</param>
+            <param name="otelEndpoint">The OpenTelemetry collector endpoint for observability.</param>
+            <param name="serviceName">The name of the service for telemetry and documentation.</param>
+            <param name="environmentName">The environment name (e.g., Development, Production).</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
+        </member>
+        <member name="T:Shared.Api.Extensions.HttpContextExtensions">
+            <summary>
+            Provides extension methods for <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.HttpContextExtensions.GetAccountId(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Retrieves the account identifier (as a <see cref="T:System.Guid"/>) from the current <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> user claims.
+            Returns <see cref="F:System.Guid.Empty"/> if the claim is missing or invalid.
+            </summary>
+            <param name="httpContext">The HTTP context containing the user claims.</param>
+            <returns>The account identifier as a <see cref="T:System.Guid"/>, or <see cref="F:System.Guid.Empty"/> if not found or invalid.</returns>
+        </member>
+        <member name="T:Shared.Api.Handlers.GlobalExceptionHandler">
+            <summary>
+            Handles exceptions globally for the application and maps them to <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> responses.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Handlers.GlobalExceptionHandler.#ctor(System.Collections.Generic.IEnumerable{Shared.Api.Abstractions.IExceptionProblemDetailsMapper})">
+            <summary>
+            Handles exceptions globally for the application and maps them to <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> responses.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Handlers.GlobalExceptionHandler.TryHandleAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception,System.Threading.CancellationToken)">
+            <summary>
+            Attempts to handle the specified exception by mapping it to a <see cref="T:Microsoft.AspNetCore.Mvc.ProblemDetails"/> response.
+            </summary>
+            <param name="httpContext">The current HTTP context.</param>
+            <param name="exception">The exception to handle.</param>
+            <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+            <returns>
+            <c>true</c> if the exception was handled and a response was written; otherwise, <c>false</c>.
+            </returns>
+        </member>
     </members>
 </doc>

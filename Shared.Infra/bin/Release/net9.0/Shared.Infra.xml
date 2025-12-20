@@ -4,5 +4,108 @@
         <name>Shared.Infra</name>
     </assembly>
     <members>
+        <member name="T:Shared.Infra.Extensions.DatabaseExtension">
+            <summary>
+            Provides extension methods for registering and managing database contexts.
+            </summary>
+        </member>
+        <member name="M:Shared.Infra.Extensions.DatabaseExtension.MigrateDatabase``1(System.IServiceProvider)">
+            <summary>
+            Applies any pending migrations for the specified <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> type.
+            </summary>
+            <typeparam name="T">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/>.</typeparam>
+            <param name="services">The service provider used to create a scope and resolve the context.</param>
+            <remarks>
+            This method creates a scope to resolve the database context, checks for pending migrations,
+            and applies them if any exist. Errors during migration are logged to the console.
+            </remarks>
+        </member>
+        <member name="M:Shared.Infra.Extensions.DatabaseExtension.AddDatabaseContext``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Registers the specified <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> with the dependency injection container
+            using a PostgreSQL connection string from configuration.
+            </summary>
+            <typeparam name="TContext">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to register.</typeparam>
+            <param name="services">The service collection to register the context with.</param>
+            <param name="configuration">The application configuration containing the connection string.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
+        </member>
+        <member name="T:Shared.Infra.Extensions.DependencyInjection">
+            <summary>
+            Provides extension methods for registering database services and repositories
+            and performing database migrations.
+            </summary>
+        </member>
+        <member name="M:Shared.Infra.Extensions.DependencyInjection.AddDatabase``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Registers a database context of type <typeparamref name="TDbC"/> using the provided configuration.
+            </summary>
+            <typeparam name="TDbC">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to register.</typeparam>
+            <param name="services">The service collection to add the database context to.</param>
+            <param name="configuration">The application configuration containing the connection string.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
+        </member>
+        <member name="M:Shared.Infra.Extensions.DependencyInjection.AddRepos``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers a repository interface and its implementation with the dependency injection container.
+            </summary>
+            <typeparam name="TRepo">The repository interface type.</typeparam>
+            <typeparam name="TRepoImpl">The concrete implementation type of the repository.</typeparam>
+            <param name="services">The service collection to register the repository with.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
+        </member>
+        <member name="M:Shared.Infra.Extensions.DependencyInjection.MigrateServiceDatabase``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Applies pending database migrations for the specified <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> type.
+            </summary>
+            <typeparam name="TDbc">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to migrate.</typeparam>
+            <param name="app">The application builder used to access services.</param>
+            <returns>The updated <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> for chaining.</returns>
+            <remarks>
+            This method calls <see cref="M:Shared.Infra.Extensions.DatabaseExtension.MigrateDatabase``1(System.IServiceProvider)"/> internally
+            to ensure the database is up-to-date with all migrations.
+            </remarks>
+        </member>
+        <member name="T:Shared.Infra.Services.UnitOfWork`1">
+            <summary>
+            Implements the unit of work pattern for a specific <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> type.
+            Provides a single point to commit changes to the database.
+            </summary>
+            <typeparam name="T">The type of <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> managed by this unit of work.</typeparam>
+        </member>
+        <member name="M:Shared.Infra.Services.UnitOfWork`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Infra.Services.UnitOfWork`1"/> class with the specified database context.
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to manage.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="context"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:Shared.Infra.Services.UnitOfWork`1.SaveChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Saves all changes made in the current unit of work to the database asynchronously.
+            </summary>
+            <param name="cancellationToken">A token to observe while waiting for the save operation to complete.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous save operation.</returns>
+        </member>
+        <member name="T:Shared.Infra.Settings.JwtSettings">
+            <summary>
+            Represents configuration settings for JWT (JSON Web Token) authentication.
+            </summary>
+        </member>
+        <member name="P:Shared.Infra.Settings.JwtSettings.Key">
+            <summary>
+            Gets or sets the secret key used to sign the JWT tokens.
+            </summary>
+        </member>
+        <member name="P:Shared.Infra.Settings.JwtSettings.Issuer">
+            <summary>
+            Gets or sets the issuer of the JWT tokens.
+            </summary>
+        </member>
+        <member name="P:Shared.Infra.Settings.JwtSettings.Audience">
+            <summary>
+            Gets or sets the audience for the JWT tokens.
+            </summary>
+        </member>
     </members>
 </doc>

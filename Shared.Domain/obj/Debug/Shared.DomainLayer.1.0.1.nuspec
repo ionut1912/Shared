@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Shared.DomainLayer</id>
+    <version>1.0.1</version>
+    <authors>ionut1912</authors>
+    <description>Shared domain layer for  microservices</description>
+    <repository type="git" commit="31b1087e3a4eafffe3022b0ebe42c4c2f70a41c8" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Microsoft.EntityFrameworkCore" version="9.0.11" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.dll" target="lib\net9.0\Shared.Domain.dll" />
+    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Domain\bin\Debug\net9.0\Shared.Domain.xml" target="lib\net9.0\Shared.Domain.xml" />
+  </files>
+</package>

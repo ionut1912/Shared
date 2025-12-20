@@ -1,15 +1,19 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shared.Api.Extensions;
 
+/// <summary>
+/// Provides extension methods for <see cref="HttpContext"/>.
+/// </summary>
 public static class HttpContextExtensions
 {
+    /// <summary>
+    /// Retrieves the account identifier (as a <see cref="Guid"/>) from the current <see cref="HttpContext"/> user claims.
+    /// Returns <see cref="Guid.Empty"/> if the claim is missing or invalid.
+    /// </summary>
+    /// <param name="httpContext">The HTTP context containing the user claims.</param>
+    /// <returns>The account identifier as a <see cref="Guid"/>, or <see cref="Guid.Empty"/> if not found or invalid.</returns>
     public static Guid GetAccountId(this HttpContext httpContext)
     {
         var accountId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
