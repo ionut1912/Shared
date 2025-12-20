@@ -45,6 +45,79 @@
             <param name="validationAssembly">The assembly containing FluentValidation validators.</param>
             <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
         </member>
+        <member name="T:Shared.Application.Interfaces.IGenericRepository`1">
+            <summary>
+            Defines a generic repository for basic CRUD operations on entities.
+            </summary>
+            <typeparam name="T">
+            The entity type managed by the repository.
+            </typeparam>
+        </member>
+        <member name="M:Shared.Application.Interfaces.IGenericRepository`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously adds a new entity to the repository.
+            </summary>
+            <param name="entity">
+            The entity to add.
+            </param>
+            <param name="cancellationToken">
+            A token to observe while waiting for the task to complete.
+            </param>
+            <returns>
+            A task that represents the asynchronous add operation.
+            </returns>
+        </member>
+        <member name="M:Shared.Application.Interfaces.IGenericRepository`1.GetAllAsync(System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Asynchronously retrieves all entities of type <typeparamref name="T"/>.
+            </summary>
+            <param name="cancellationToken">
+            A token to observe while waiting for the task to complete.
+            </param>
+            <param name="includes">
+            Navigation property expressions to include in the query.
+            If no includes are specified, only the root entities are returned.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains all matching entities.
+            </returns>
+        </member>
+        <member name="M:Shared.Application.Interfaces.IGenericRepository`1.GetByIdAsync(System.Guid,System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Asynchronously retrieves an entity by its unique identifier.
+            </summary>
+            <param name="id">
+            The unique identifier of the entity.
+            </param>
+            <param name="cancellationToken">
+            A token to observe while waiting for the task to complete.
+            </param>
+            <param name="includes">
+            Navigation property expressions to include in the query.
+            If no includes are specified, only the root entity is returned.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains the entity if found; otherwise, <c>null</c>.
+            </returns>
+        </member>
+        <member name="M:Shared.Application.Interfaces.IGenericRepository`1.Update(`0)">
+            <summary>
+            Marks an existing entity as modified in the repository.
+            </summary>
+            <param name="entity">
+            The entity to update.
+            </param>
+        </member>
+        <member name="M:Shared.Application.Interfaces.IGenericRepository`1.Delete(`0)">
+            <summary>
+            Marks an entity for deletion from the repository.
+            </summary>
+            <param name="entity">
+            The entity to delete.
+            </param>
+        </member>
         <member name="T:Shared.Application.Mediator.ICommand`1">
             <summary>
             Marker interface for commands that return a response
@@ -110,21 +183,51 @@
         </member>
         <member name="T:Shared.Application.Mediator.IRequestHandler`2">
             <summary>
-            Defines a handler for a request
+            Defines a handler for a request that returns a response.
             </summary>
-            <typeparam name="TRequest">The type of request being handled</typeparam>
-            <typeparam name="TResponse">The type of response from the handler</typeparam>
+            <typeparam name="TRequest">
+            The type of request being handled.
+            </typeparam>
+            <typeparam name="TResponse">
+            The type of response returned by the handler.
+            </typeparam>
+        </member>
+        <member name="M:Shared.Application.Mediator.IRequestHandler`2.Handle(`0,System.Threading.CancellationToken)">
+            <summary>
+            Handles the specified request asynchronously.
+            </summary>
+            <param name="request">
+            The request instance to handle.
+            </param>
+            <param name="cancellationToken">
+            A token to observe while waiting for the operation to complete.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains the response produced by the handler.
+            </returns>
         </member>
         <member name="T:Shared.Application.Mediator.IRequestHandler`1">
             <summary>
-            Defines a handler for a request that doesn't return a response
+            Defines a handler for a request that does not return a response.
             </summary>
-            <typeparam name="TRequest">The type of request being handled</typeparam>
+            <typeparam name="TRequest">
+            The type of request being handled.
+            </typeparam>
         </member>
         <member name="T:Shared.Application.Mediator.Mediator">
             <summary>
-            Default mediator implementation that resolves handlers from the DI container
+            Default mediator implementation that resolves handlers and pipeline behaviors
+            from the dependency injection container.
             </summary>
+        </member>
+        <member name="M:Shared.Application.Mediator.Mediator.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Application.Mediator.Mediator"/> class.
+            </summary>
+        </member>
+        <member name="M:Shared.Application.Mediator.Mediator.Send``1(Shared.Application.Mediator.IRequest{``0},System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
         <member name="T:Shared.Application.Mediator.MediatorServiceCollectionExtensions">
             <summary>

@@ -25,7 +25,6 @@
         <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.UseGlobalExceptionHandler``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Adds a global exception handler middleware to the application's request pipeline.
-            Logs unhandled exceptions and delegates handling to the registered <see cref="T:Microsoft.AspNetCore.Diagnostics.IExceptionHandler"/>.
             </summary>
             <typeparam name="T">The type used for logging context.</typeparam>
             <param name="app">The application builder.</param>
@@ -41,17 +40,17 @@
         </member>
         <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.UseStandardMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
-            Adds standard middleware components to the application's request pipeline, including routing, authentication, and authorization.
+            Adds standard middleware components to the application's request pipeline.
             </summary>
             <param name="app">The application builder.</param>
             <returns>The application builder.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.MapApiDocumentation(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Scalar.AspNetCore.ScalarOptions})">
             <summary>
-            Maps API documentation endpoints, including OpenAPI and Scalar API reference UI, to the application's endpoint routing pipeline.
+            Maps API documentation endpoints to the application's endpoint routing pipeline.
             </summary>
             <param name="app">The application builder.</param>
-            <param name="configureScalar">An optional action to configure <see cref="T:Scalar.AspNetCore.ScalarOptions"/> for the Scalar API reference UI.</param>
+            <param name="configureScalar">An optional action to configure Scalar API reference UI.</param>
             <returns>The application builder.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.ApplicationBuilderExtensions.MapStandardEndpoints(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
@@ -63,67 +62,38 @@
         </member>
         <member name="T:Shared.Api.Extensions.DependencyInjection">
             <summary>
-            Provides extension methods for configuring dependency injection, database, repositories, application, and presentation layers,
-            as well as OpenTelemetry and health checks for ASP.NET Core applications.
+            Provides extension methods for configuring dependency injection, database, repositories, application, and presentation layers.
             </summary>
         </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.AddOpenTelemetry(Microsoft.AspNetCore.Builder.WebApplicationBuilder,System.String,System.String,System.String)">
             <summary>
-            Adds OpenTelemetry logging to the specified <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/> using the provided endpoint, service name, and environment name.
+            Adds OpenTelemetry logging to the specified <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/>.
             </summary>
-            <param name="builder">The <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/> to configure.</param>
-            <param name="otelEndpoint">The OpenTelemetry collector endpoint.</param>
-            <param name="serviceName">The name of the service for telemetry identification.</param>
-            <param name="environmentName">The environment name (e.g., Development, Production).</param>
-            <returns>The configured <see cref="T:Microsoft.AspNetCore.Builder.WebApplicationBuilder"/> instance.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.AddDatabaseConfig``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
-            Adds and configures the database context of type <typeparamref name="Tdbc"/> to the service collection using the specified configuration.
+            Adds and configures the database context of type <typeparamref name="Tdbc"/>.
             </summary>
-            <typeparam name="Tdbc">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to register.</typeparam>
-            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the database context to.</param>
-            <param name="configuration">The application configuration used for database setup.</param>
-            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.AddRepositoriesConfig``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            Adds and configures repository services of type <typeparamref name="TRepo"/> with implementation <typeparamref name="TRepoImpl"/> to the service collection.
+            Adds and configures repository services of type <typeparamref name="TRepo"/> with implementation <typeparamref name="TRepoImpl"/>.
             </summary>
-            <typeparam name="TRepo">The interface or base type of the repository.</typeparam>
-            <typeparam name="TRepoImpl">The concrete implementation type of the repository.</typeparam>
-            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the repositories to.</param>
-            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.MigrateDatabaseConfig``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
-            Applies any pending migrations for the database context of type <typeparamref name="TDbc"/> at application startup.
+            Applies any pending migrations for the database context of type <typeparamref name="TDbc"/>.
             </summary>
-            <typeparam name="TDbc">The type of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> to migrate.</typeparam>
-            <param name="app">The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> to use for migration.</param>
-            <returns>The configured <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> instance.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.AddAplicationConfig(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly,System.Reflection.Assembly)">
             <summary>
-            Adds and configures application services, including MediatR and validation, to the service collection.
+            Adds and configures application services, including MediatR and validation.
             </summary>
-            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the application services to.</param>
-            <param name="mediatorAssembly">The assembly containing MediatR handlers.</param>
-            <param name="validationAssembly">The assembly containing validation logic.</param>
-            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
         </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.AddPresentation``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String,System.String,System.String)">
             <summary>
-            Adds and configures the presentation layer services, including authentication, authorization, observability, API documentation,
-            exception handling, health checks, and API infrastructure for an ASP.NET Core application.
+            Adds and configures the presentation layer services.
             </summary>
-            <typeparam name="T">The type implementing <see cref="T:Shared.Api.Abstractions.IExceptionProblemDetailsMapper"/> for mapping exceptions to problem details.</typeparam>
-            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the presentation services to.</param>
-            <param name="configuration">The application configuration used for authentication and other setup.</param>
-            <param name="otelEndpoint">The OpenTelemetry collector endpoint for observability.</param>
-            <param name="serviceName">The name of the service for telemetry and documentation.</param>
-            <param name="environmentName">The environment name (e.g., Development, Production).</param>
-            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</returns>
         </member>
         <member name="T:Shared.Api.Extensions.HttpContextExtensions">
             <summary>
@@ -136,7 +106,42 @@
             Returns <see cref="F:System.Guid.Empty"/> if the claim is missing or invalid.
             </summary>
             <param name="httpContext">The HTTP context containing the user claims.</param>
-            <returns>The account identifier as a <see cref="T:System.Guid"/>, or <see cref="F:System.Guid.Empty"/> if not found or invalid.</returns>
+            <returns>The account identifier as a <see cref="T:System.Guid"/> or <see cref="F:System.Guid.Empty"/>.</returns>
+        </member>
+        <member name="T:Shared.Api.Extensions.ServiceCollectionExtensions">
+            <summary>
+            Provides extension methods for configuring dependency injection and OpenTelemetry services.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ServiceCollectionExtensions.AddJwtAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds JWT authentication to the service collection.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ServiceCollectionExtensions.AddRoleBasedAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds role-based authorization policies to the service collection.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ServiceCollectionExtensions.AddOpenTelemetryObservability(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String,OpenTelemetry.Resources.ResourceBuilder)">
+            <summary>
+            Adds OpenTelemetry tracing and metrics to the service collection.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ServiceCollectionExtensions.AddOpenTelemetryLogging(Microsoft.Extensions.Logging.ILoggingBuilder,System.String,OpenTelemetry.Resources.ResourceBuilder)">
+            <summary>
+            Adds OpenTelemetry logging to the logging builder.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ServiceCollectionExtensions.AddOpenApiWithJwtAuth(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String)">
+            <summary>
+            Adds OpenAPI/Swagger documentation with JWT authentication to the service collection.
+            </summary>
+        </member>
+        <member name="M:Shared.Api.Extensions.ServiceCollectionExtensions.CreateServiceResourceBuilder(System.String,System.String,System.String)">
+            <summary>
+            Creates a <see cref="T:OpenTelemetry.Resources.ResourceBuilder"/> for OpenTelemetry.
+            </summary>
         </member>
         <member name="T:Shared.Api.Handlers.GlobalExceptionHandler">
             <summary>

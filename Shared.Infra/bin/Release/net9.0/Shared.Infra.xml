@@ -66,6 +66,27 @@
             to ensure the database is up-to-date with all migrations.
             </remarks>
         </member>
+        <member name="T:Shared.Infra.Services.GenericRepository`1">
+            <inheritdoc />
+        </member>
+        <member name="M:Shared.Infra.Services.GenericRepository`1.#ctor(Microsoft.EntityFrameworkCore.DbSet{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Shared.Infra.Services.GenericRepository`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Shared.Infra.Services.GenericRepository`1.Delete(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Shared.Infra.Services.GenericRepository`1.GetAllAsync(System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <inheritdoc />
+        </member>
+        <member name="M:Shared.Infra.Services.GenericRepository`1.GetByIdAsync(System.Guid,System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <inheritdoc />
+        </member>
+        <member name="M:Shared.Infra.Services.GenericRepository`1.Update(`0)">
+            <inheritdoc />
+        </member>
         <member name="T:Shared.Infra.Services.UnitOfWork`1">
             <summary>
             Implements the unit of work pattern for a specific <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> type.

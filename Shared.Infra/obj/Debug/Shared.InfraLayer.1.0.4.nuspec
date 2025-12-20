@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Shared.InfraLayer</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <authors>ionut1912</authors>
     <description>Shared infra layer for  microservices</description>
     <repository type="git" commit="562a7ed83ce4ab312f63627166e01b98ffb161c1" />
@@ -17,14 +17,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\bin\Debug\net9.0\Shared.Infra.pdb" target="lib\net9.0\Shared.Infra.pdb" />
     <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\bin\Debug\net9.0\Shared.Infra.dll" target="lib\net9.0\Shared.Infra.dll" />
     <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\bin\Debug\net9.0\Shared.Infra.xml" target="lib\net9.0\Shared.Infra.xml" />
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Extensions\DatabaseExtensions.cs" target="src\Shared.Infra\Extensions\DatabaseExtensions.cs" />
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Extensions\DependencyInjection.cs" target="src\Shared.Infra\Extensions\DependencyInjection.cs" />
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Services\UnitOfWork.cs" target="src\Shared.Infra\Services\UnitOfWork.cs" />
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Settings\JwtSettings.cs" target="src\Shared.Infra\Settings\JwtSettings.cs" />
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\obj\Debug\net9.0\Shared.Infra.GlobalUsings.g.cs" target="src\Shared.Infra\obj\Debug\net9.0\Shared.Infra.GlobalUsings.g.cs" />
-    <file src="C:\Users\nites\Desktop\projects\Shared\Shared.Infra\Shared.Infra.csproj" target="src\Shared.Infra\Shared.Infra.csproj" />
   </files>
 </package>
