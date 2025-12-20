@@ -145,13 +145,17 @@
         </member>
         <member name="T:Shared.Application.Mediator.MediatorServiceCollectionExtensions">
             <summary>
-            Extension methods to register mediator services.
+            Provides extension methods for registering MediatR-style mediator services and pipeline behaviors.
             </summary>
         </member>
         <member name="M:Shared.Application.Mediator.MediatorServiceCollectionExtensions.AddMediator(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Reflection.Assembly[])">
             <summary>
-            Registers the mediator, request handlers, and pipeline behaviors.
+            Registers the <see cref="T:Shared.Application.Mediator.IMediator"/> implementation, request handlers, and pipeline behaviors
+            from the specified assemblies.
             </summary>
+            <param name="services">The service collection to add services to.</param>
+            <param name="assemblies">Assemblies to scan for request handlers and pipeline behaviors.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</returns>
         </member>
         <member name="T:Shared.Application.Mediator.RequestHandlerDelegate`1">
             <summary>
