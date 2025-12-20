@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Api.Abstractions;
 using Shared.Api.Handlers;
+using Shared.Application.Behaviours;
 using Shared.Application.Extensions;
 using Shared.Infra.Extensions;
 using System.Reflection;
@@ -134,7 +135,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddAplicationConfig(this IServiceCollection services, Assembly mediatorAssembly, Assembly validationAssembly)
     {
-        services.AddApplicationServices(mediatorAssembly, validationAssembly);
+        services.AddApplicationServices(mediatorAssembly, validationAssembly,typeof(ValidationBehavior<,>).Assembly);
         return services;
     }
 
