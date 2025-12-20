@@ -45,6 +45,13 @@
             <param name="configuration">The application configuration containing the connection string.</param>
             <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for chaining.</returns>
         </member>
+        <member name="M:Shared.Infra.Extensions.DependencyInjection.AddGenericRepos(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers the generic repository services in the dependency injection container.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the services to.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> with generic repository services registered.</returns>
+        </member>
         <member name="M:Shared.Infra.Extensions.DependencyInjection.AddRepos``2(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Registers a repository interface and its implementation with the dependency injection container.

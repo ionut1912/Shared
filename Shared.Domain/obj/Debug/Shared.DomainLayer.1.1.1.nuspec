@@ -5,7 +5,7 @@
     <version>1.1.1</version>
     <authors>ionut1912</authors>
     <description>Shared domain layer for  microservices</description>
-    <repository type="git" commit="5b5974ce9d866a42f4007e8241cbcf662ac1663c" />
+    <repository type="git" commit="d036e0415b0d41ab314ffe884feb868446273732" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Microsoft.EntityFrameworkCore" version="9.0.11" exclude="Build,Analyzers" />

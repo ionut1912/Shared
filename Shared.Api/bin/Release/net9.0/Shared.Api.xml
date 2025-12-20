@@ -80,6 +80,25 @@
             Adds and configures repository services of type <typeparamref name="TRepo"/> with implementation <typeparamref name="TRepoImpl"/>.
             </summary>
         </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddGenericRepositoriesConfig(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers all generic repository services in the dependency injection container.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to add the services to.</param>
+            <returns>The updated <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> with generic repository services registered.</returns>
+        </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddRepository``4(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers a repository for a specific entity type using a DbSet from the provided DbContext,
+            and maps it to the corresponding repository interface.
+            </summary>
+            <typeparam name="TEntity">The entity type.</typeparam>
+            <typeparam name="TRepository">The concrete repository type.</typeparam>
+            <typeparam name="TInterface">The repository interface type.</typeparam>
+            <typeparam name="TDbContext">The DbContext type.</typeparam>
+            <param name="services">The service collection.</param>
+            <returns>The updated service collection.</returns>
+        </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.MigrateDatabaseConfig``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Applies any pending migrations for the database context of type <typeparamref name="TDbc"/>.
