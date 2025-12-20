@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Application.Interfaces;
+using Shared.Domain.Interfaces;
 using System.Linq.Expressions;
 
 namespace Shared.Infra.Services

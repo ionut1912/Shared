@@ -3,8 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shared.Application.Mediator;
 using System.Reflection;
 
-namespace Shared.Application.Extensions
-{
+namespace Shared.Application.Extensions;
     /// <summary>
     /// Provides extension methods for registering application services with the dependency injection container.
     /// </summary>
@@ -31,4 +30,4 @@ namespace Shared.Application.Extensions
             return services;
         }
     }
-}
+

@@ -145,6 +145,79 @@
             </summary>
             <param name="validationErrors">The collection of <see cref="T:Shared.Domain.Common.ValidationError"/> instances that describe the validation failures.</param>
         </member>
+        <member name="T:Shared.Domain.Interfaces.IGenericRepository`1">
+            <summary>
+            Defines a generic repository for basic CRUD operations on entities.
+            </summary>
+            <typeparam name="T">
+            The entity type managed by the repository.
+            </typeparam>
+        </member>
+        <member name="M:Shared.Domain.Interfaces.IGenericRepository`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously adds a new entity to the repository.
+            </summary>
+            <param name="entity">
+            The entity to add.
+            </param>
+            <param name="cancellationToken">
+            A token to observe while waiting for the task to complete.
+            </param>
+            <returns>
+            A task that represents the asynchronous add operation.
+            </returns>
+        </member>
+        <member name="M:Shared.Domain.Interfaces.IGenericRepository`1.GetAllAsync(System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Asynchronously retrieves all entities of type <typeparamref name="T"/>.
+            </summary>
+            <param name="cancellationToken">
+            A token to observe while waiting for the task to complete.
+            </param>
+            <param name="includes">
+            Navigation property expressions to include in the query.
+            If no includes are specified, only the root entities are returned.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains all matching entities.
+            </returns>
+        </member>
+        <member name="M:Shared.Domain.Interfaces.IGenericRepository`1.GetByIdAsync(System.Guid,System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Asynchronously retrieves an entity by its unique identifier.
+            </summary>
+            <param name="id">
+            The unique identifier of the entity.
+            </param>
+            <param name="cancellationToken">
+            A token to observe while waiting for the task to complete.
+            </param>
+            <param name="includes">
+            Navigation property expressions to include in the query.
+            If no includes are specified, only the root entity is returned.
+            </param>
+            <returns>
+            A task that represents the asynchronous operation.
+            The task result contains the entity if found; otherwise, <c>null</c>.
+            </returns>
+        </member>
+        <member name="M:Shared.Domain.Interfaces.IGenericRepository`1.Update(`0)">
+            <summary>
+            Marks an existing entity as modified in the repository.
+            </summary>
+            <param name="entity">
+            The entity to update.
+            </param>
+        </member>
+        <member name="M:Shared.Domain.Interfaces.IGenericRepository`1.Delete(`0)">
+            <summary>
+            Marks an entity for deletion from the repository.
+            </summary>
+            <param name="entity">
+            The entity to delete.
+            </param>
+        </member>
         <member name="T:Shared.Domain.Interfaces.IUnitOfWork`1">
             <summary>
             Represents a unit of work pattern for a database context.
