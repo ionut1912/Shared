@@ -57,7 +57,6 @@ public static class DependencyInjection
         return services;
     }
 
-
     /// <summary>
     /// Registers a repository for a specific entity type using a DbSet from the provided DbContext,
     /// and maps it to the corresponding repository interface.
@@ -68,17 +67,54 @@ public static class DependencyInjection
     /// <typeparam name="TDbContext">The DbContext type.</typeparam>
     /// <param name="services">The service collection.</param>
     /// <returns>The updated service collection.</returns>
-    public static IServiceCollection AddRepository<TEntity, TRepository, TInterface, TDbContext>(this IServiceCollection services)
+    public static IServiceCollection AddRepository<TEntity, TRepository, TInterface, TDbContext>(
+        this IServiceCollection services)
         where TEntity : class
         where TRepository : class, TInterface
         where TInterface : class
         where TDbContext : DbContext
     {
-        services.AddScoped<TInterface>(sp =>
+        services.AddScoped(sp =>
         {
-            var context = sp.GetRequiredService<TDbContext>();
-            var dbSet = context.Set<TEntity>();
+            var dbContext = sp.GetRequiredService<TDbContext>();
+            var dbSet = dbContext.Set<TEntity>();
             return (TInterface)Activator.CreateInstance(typeof(TRepository), dbSet)!;
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Registers a repository in the dependency injection container that requires a <see cref="DbSet{TEntity}"/> 
+    /// and a single additional service as constructor parameters.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type that the repository manages.</typeparam>
+    /// <typeparam name="TRepository">The concrete repository type to be instantiated.</typeparam>
+    /// <typeparam name="TInterface">The interface type that the repository implements.</typeparam>
+    /// <typeparam name="TDbContext">The <see cref="DbContext"/> type that contains the <see cref="DbSet{TEntity}"/>.</typeparam>
+    /// <typeparam name="TService">An additional service type required by the repository constructor.</typeparam>
+    /// <param name="services">The <see cref="IServiceCollection"/> to which the repository is added.</param>
+    /// <returns>The <see cref="IServiceCollection"/> with the repository registration added.</returns>
+    /// <remarks>
+    /// The repository constructor must have exactly two parameters: 
+    /// <list type="bullet">
+    /// <item><description>A <see cref="DbSet{TEntity}"/> from <typeparamref name="TDbContext"/>.</description></item>
+    /// <item><description>An instance of <typeparamref name="TService"/>.</description></item>
+    /// </list>
+    /// </remarks>
+    public static IServiceCollection AddRepository<TEntity, TRepository, TInterface, TDbContext, TService>(
+        this IServiceCollection services)
+        where TEntity : class
+        where TRepository : class, TInterface
+        where TInterface : class
+        where TDbContext : DbContext
+        where TService : class
+    {
+        services.AddScoped(sp =>
+        {
+            var dbSet = sp.GetRequiredService<TDbContext>().Set<TEntity>();
+            var service = sp.GetRequiredService<TService>();
+            return (TInterface)Activator.CreateInstance(typeof(TRepository), dbSet, service)!;
         });
 
         return services;

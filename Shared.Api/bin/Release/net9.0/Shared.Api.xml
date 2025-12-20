@@ -99,6 +99,26 @@
             <param name="services">The service collection.</param>
             <returns>The updated service collection.</returns>
         </member>
+        <member name="M:Shared.Api.Extensions.DependencyInjection.AddRepository``5(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers a repository in the dependency injection container that requires a <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1"/> 
+            and a single additional service as constructor parameters.
+            </summary>
+            <typeparam name="TEntity">The entity type that the repository manages.</typeparam>
+            <typeparam name="TRepository">The concrete repository type to be instantiated.</typeparam>
+            <typeparam name="TInterface">The interface type that the repository implements.</typeparam>
+            <typeparam name="TDbContext">The <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> type that contains the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1"/>.</typeparam>
+            <typeparam name="TService">An additional service type required by the repository constructor.</typeparam>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to which the repository is added.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> with the repository registration added.</returns>
+            <remarks>
+            The repository constructor must have exactly two parameters: 
+            <list type="bullet">
+            <item><description>A <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1"/> from <typeparamref name="TDbContext"/>.</description></item>
+            <item><description>An instance of <typeparamref name="TService"/>.</description></item>
+            </list>
+            </remarks>
+        </member>
         <member name="M:Shared.Api.Extensions.DependencyInjection.MigrateDatabaseConfig``1(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             Applies any pending migrations for the database context of type <typeparamref name="TDbc"/>.
