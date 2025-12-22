@@ -1,0 +1,14 @@
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release4\net9.0\Shared.Api.deps.json
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release4\net9.0\Shared.Api.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release4\net9.0\Shared.Api.pdb
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\bin\Release4\net9.0\Shared.Api.xml
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.csproj.AssemblyReference.cache
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.AssemblyInfoInputs.cache
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.AssemblyInfo.cs
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.csproj.CoreCompileInputs.cache
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.sourcelink.json
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\refint\Shared.Api.dll
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\Shared.Api.pdb
+C:\Users\nites\Desktop\projects\Shared\Shared.Api\obj\Release4\net9.0\ref\Shared.Api.dll

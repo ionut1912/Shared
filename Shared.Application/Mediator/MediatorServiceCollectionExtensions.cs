@@ -20,29 +20,31 @@ namespace Shared.Application.Mediator
         {
             services.AddScoped<IMediator, Mediator>();
 
-            var handlerTypes = assemblies
-                .SelectMany(a => a.GetTypes())
-                .Where(t => t.IsClass && !t.IsAbstract)
-                .SelectMany(t => t.GetInterfaces()
-                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>))
-                    .Select(i => new { Interface = i, Implementation = t }))
-                .ToList();
+            foreach (var item in (from t in assemblies.SelectMany((Assembly a) => a.GetTypes())
+                                  where t.IsClass && !t.IsAbstract
+                                  select t).SelectMany((Type t) => from i in t.GetInterfaces()
+                                                                   where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>)
+                                                                   select new
+                                                                   {
+                                                                       Interface = i,
+                                                                       Implementation = t
+                                                                   }).ToList())
+            {
+                services.AddScoped(item.Interface, item.Implementation);
+            }
 
-            foreach (var handler in handlerTypes)
-                services.AddScoped(handler.Interface, handler.Implementation);
-
-            var behaviorTypes = assemblies
-                .SelectMany(a => a.GetTypes())
-                .Where(t => t.IsClass && !t.IsAbstract)
-                .SelectMany(t => t.GetInterfaces()
-                    .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IPipelineBehavior<,>))
-                    .Select(i => new { Interface = i, Implementation = t }))
-                .ToList();
-
-            foreach (var behavior in behaviorTypes)
-                services.AddScoped(behavior.Interface, behavior.Implementation);
-
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            foreach (var item2 in (from t in assemblies.SelectMany((Assembly a) => a.GetTypes())
+                                   where t.IsClass && !t.IsAbstract
+                                   select t).SelectMany((Type t) => from i in t.GetInterfaces()
+                                                                    where i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IPipelineBehavior<,>)
+                                                                    select new
+                                                                    {
+                                                                        Interface = i,
+                                                                        Implementation = t
+                                                                    }).ToList())
+            {
+                services.AddScoped(item2.Interface, item2.Implementation);
+            }
 
             return services;
         }
