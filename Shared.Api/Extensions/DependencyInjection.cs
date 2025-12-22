@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Resources;
 using Shared.Api.Abstractions;
 using Shared.Api.Handlers;
 using Shared.Application.Behaviours;
@@ -22,10 +25,24 @@ public static class DependencyInjection
     /// </summary>
     public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder, string otelEndpoint, string serviceName, string environmentName)
     {
-        var resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
-        builder.Logging.AddOpenTelemetryLogging(otelEndpoint, resourceBuilder);
+        ResourceBuilder resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();
+        builder.Logging.AddOpenTelemetry(options =>
+        {
+            options.SetResourceBuilder(resourceBuilder);
+            options.IncludeScopes = true;
+            options.ParseStateValues = true;
+            options.AddOtlpExporter(o =>
+            {
+                o.Endpoint = new Uri(otelEndpoint);
+            });
+        });
+
         return builder;
     }
+
 
     /// <summary>
     /// Adds and configures the database context of type <typeparamref name="Tdbc"/>.
