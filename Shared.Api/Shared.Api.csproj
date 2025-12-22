@@ -1,36 +1,47 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
- <Version>1.2.8</Version>
-    <Authors>ionut1912</Authors>
-    <Company>Shared</Company>
-    <PackageId>Shared.ApiLayer</PackageId>
-    <Description>Shared api layer for  microservices</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IncludeSymbols>true</IncludeSymbols>
-    <IncludeSource>true</IncludeSource>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  <DocumentationFile>bin\Release\net9.0\Shared.Api.xml</DocumentationFile>
-  </PropertyGroup>
+        <Version>1.2.9</Version>
+        <Authors>ionut1912</Authors>
+        <Company>Shared</Company>
+        <PackageId>Shared.ApiLayer</PackageId>
+        <Description>Shared api layer for microservices</Description>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IncludeSymbols>true</IncludeSymbols>
+        <IncludeSource>true</IncludeSource>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>bin\Release\net9.0\Shared.Api.xml</DocumentationFile>
+    </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.11" />
-      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
-      <PackageReference Include="Scalar.AspNetCore" Version="2.11.9" />
-      <PackageReference Include="Shared.ApplicationLayer" Version="1.2.3" />
-      <PackageReference Include="Shared.InfraLayer" Version="1.0.6" />
-              <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
+        <!-- ASP.NET Core -->
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.11.9" />
+
+        <!-- Shared Libraries -->
+        <PackageReference Include="Shared.ApplicationLayer" Version="1.2.3" />
+        <PackageReference Include="Shared.InfraLayer" Version="1.0.6" />
+
+        <!-- OpenTelemetry Core -->
+        <PackageReference Include="OpenTelemetry" Version="1.14.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
+
+        <!-- OpenTelemetry Instrumentation - Tracing -->
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.14.0-beta.2" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.EventCounters" Version="1.14.0-alpha.1" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="1.14.0-beta.2" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.14.0-beta.2" />
+
+        <!-- OpenTelemetry Instrumentation - Metrics -->
         <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.14.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="1.14.0-beta.2" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.EventCounters" Version="1.14.0-alpha.1" />
+
+        <!-- JWT -->
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
     </ItemGroup>
-
 </Project>

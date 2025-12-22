@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -69,28 +70,73 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds OpenTelemetry tracing and metrics to the service collection.
     /// </summary>
-    public static IServiceCollection AddOpenTelemetryObservability(this IServiceCollection services, string otelEndpoint, string serviceName, ResourceBuilder resourceBuilder)
+
+    public static IServiceCollection AddOpenTelemetryObservability(
+         this IServiceCollection services,
+         string otelEndpoint,
+         string serviceName,
+         ResourceBuilder resourceBuilder)
     {
         services.AddOpenTelemetry()
-            .ConfigureResource(rb => rb.AddService(serviceName: serviceName, serviceVersion: "1.0.0"))
+            .ConfigureResource(rb => rb.AddService(serviceName, null, "1.0.0"))
             .WithTracing(tracing =>
             {
                 tracing
-                    .AddAspNetCoreInstrumentation(opts => opts.RecordException = true)
-                    .AddHttpClientInstrumentation()
-                    .AddEntityFrameworkCoreInstrumentation(opts => opts.EnrichWithIDbCommand = (activity, command) => activity.SetTag("db.statement", command.CommandText))
+                    .AddAspNetCoreInstrumentation(opts =>
+                    {
+                        opts.RecordException = true;
+                        opts.EnrichWithHttpRequest = (activity, httpRequest) =>
+                        {
+                            activity.SetTag("http.client_ip",
+                                httpRequest.HttpContext?.Connection.RemoteIpAddress?.ToString());
+                        };
+                        opts.EnrichWithHttpResponse = (activity, httpResponse) =>
+                        {
+                            activity.SetTag("http.response_content_length",
+                                httpResponse.ContentLength);
+                        };
+                    })
+                    .AddHttpClientInstrumentation(opts =>
+                    {
+                        opts.RecordException = true;
+                    })
+                    .AddEntityFrameworkCoreInstrumentation(opts =>
+                    {
+                        opts.EnrichWithIDbCommand = (activity, command) =>
+                        {
+                            activity.SetTag("db.statement", command.CommandText);
+                            activity.SetTag("db.command_type", command.CommandType.ToString());
+                            activity.SetTag("db.system", "postgresql");
+                        };
+                    })
                     .AddSource(serviceName)
-                    .AddOtlpExporter(o => o.Endpoint = new Uri(otelEndpoint));
+                    .AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri(otelEndpoint);
+                        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+                        otlpOptions.TimeoutMilliseconds = 10000;
+                    });
             })
             .WithMetrics(metrics =>
             {
                 metrics
-                    .AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation()
                     .AddProcessInstrumentation()
-                    .AddEventCountersInstrumentation(c => c.AddEventSources("Microsoft.AspNetCore.Hosting"))
-                    .AddOtlpExporter(o => o.Endpoint = new Uri(otelEndpoint));
+                    .AddHttpClientInstrumentation()
+                    .AddEventCountersInstrumentation(opts =>
+                    {
+                        opts.AddEventSources(
+                            "Microsoft.AspNetCore.Hosting",
+                            "System.Net.Http",
+                            "System.Net.NameResolution",
+                            "System.Net.Security");
+                    })
+                    .AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri(otelEndpoint);
+                        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+                        otlpOptions.TimeoutMilliseconds = 10000;
+                    });
             });
 
         return services;
@@ -163,14 +209,16 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Creates a <see cref="ResourceBuilder"/> for OpenTelemetry.
     /// </summary>
-    public static ResourceBuilder CreateServiceResourceBuilder(string serviceName, string environmentName, string serviceVersion = "1.0.0")
+    public static ResourceBuilder CreateServiceResourceBuilder(string serviceName, string environmentName)
     {
-        return ResourceBuilder.CreateDefault()
-            .AddService(serviceName: serviceName, serviceVersion: serviceVersion)
-            .AddAttributes(new[]
+        return ResourceBuilder
+            .CreateDefault()
+            .AddService(serviceName, null, "1.0.0")
+            .AddAttributes(new Dictionary<string, object>
             {
-                new KeyValuePair<string, object>("deployment.environment", environmentName),
-                new KeyValuePair<string, object>("service.namespace", "freelance")
+                { "environment", environmentName },
+                { "service.namespace", "Freelance" },
+                { "telemetry.sdk.language", "dotnet" }
             });
     }
 }

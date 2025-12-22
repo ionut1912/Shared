@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using Shared.Api.Abstractions;
@@ -23,9 +24,13 @@ public static class DependencyInjection
     /// <summary>
     /// Adds OpenTelemetry logging to the specified <see cref="WebApplicationBuilder"/>.
     /// </summary>
-    public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder, string otelEndpoint, string serviceName, string environmentName)
+    public static WebApplicationBuilder AddOpenTelemetry(
+       this WebApplicationBuilder builder,
+       string otelEndpoint,
+       string serviceName,
+       string environmentName)
     {
-        ResourceBuilder resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
+        var resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
 
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
@@ -34,9 +39,11 @@ public static class DependencyInjection
             options.SetResourceBuilder(resourceBuilder);
             options.IncludeScopes = true;
             options.ParseStateValues = true;
-            options.AddOtlpExporter(o =>
+            options.IncludeFormattedMessage = true;
+            options.AddOtlpExporter(otlpOptions =>
             {
-                o.Endpoint = new Uri(otelEndpoint);
+                otlpOptions.Endpoint = new Uri(otelEndpoint);
+                otlpOptions.Protocol = OtlpExportProtocol.Grpc;
             });
         });
 
@@ -159,7 +166,13 @@ public static class DependencyInjection
     /// <summary>
     /// Adds and configures the presentation layer services.
     /// </summary>
-    public static IServiceCollection AddPresentation<T>(this IServiceCollection services, IConfiguration configuration, string otelEndpoint, string serviceName, string environmentName) where T : class, IExceptionProblemDetailsMapper
+    public static IServiceCollection AddPresentation<T>(
+           this IServiceCollection services,
+           IConfiguration configuration,
+           string otelEndpoint,
+           string serviceName,
+           string environmentName)
+           where T : class, IExceptionProblemDetailsMapper
     {
         var resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
 
@@ -169,13 +182,10 @@ public static class DependencyInjection
 
         services.AddOpenTelemetryObservability(otelEndpoint, serviceName, resourceBuilder);
 
-        services.AddOpenApiWithJwtAuth($"{serviceName}-Api");
-
+        services.AddOpenApiWithJwtAuth(serviceName + "-Api");
         services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
         services.AddSingleton<IExceptionProblemDetailsMapper, T>();
-
         services.AddHealthChecks();
-
         services.AddEndpointsApiExplorer();
         services.AddControllers();
 

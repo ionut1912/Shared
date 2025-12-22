@@ -208,3 +208,4 @@
 /Shared.Domain/obj/Debug/Shared.DomainLayer.1.0.0.nuspec
 /Shared.Api/obj/Shared.Api.csproj.nuget.g.props
 /Shared.Api/obj/Shared.Api.csproj.nuget.g.targets
+/Shared.Api/bin/Release/net9.0/Shared.Api.xml
