@@ -1,15 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Exporter;
+using OpenTelemetry.Instrumentation.AspNetCore;
+using OpenTelemetry.Instrumentation.EntityFrameworkCore;
+using OpenTelemetry.Instrumentation.EventCounters;
+using OpenTelemetry.Instrumentation.Http;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Shared.Infra.Settings;
+using System.Data;
+using System.Diagnostics;
 using System.Text;
 
 namespace Shared.Api.Extensions;
@@ -71,67 +78,59 @@ public static class ServiceCollectionExtensions
     /// Adds OpenTelemetry tracing and metrics to the service collection.
     /// </summary>
 
-    public static IServiceCollection AddOpenTelemetryObservability(
-         this IServiceCollection services,
-         string otelEndpoint,
-         string serviceName,
-         ResourceBuilder resourceBuilder)
+    public static IServiceCollection AddOpenTelemetryObservability(this IServiceCollection services, string otelEndpoint, string serviceName, ResourceBuilder resourceBuilder)
     {
         services.AddOpenTelemetry()
-            .ConfigureResource(rb => rb.AddService(serviceName, null, "1.0.0"))
-            .WithTracing(tracing =>
+            .ConfigureResource(delegate (ResourceBuilder rb)
             {
-                tracing
-                    .AddAspNetCoreInstrumentation(opts =>
-                    {
-                        opts.RecordException = true;
-                        opts.EnrichWithHttpRequest = (activity, httpRequest) =>
-                        {
-                            activity.SetTag("http.client_ip",
-                                httpRequest.HttpContext?.Connection.RemoteIpAddress?.ToString());
-                        };
-                        opts.EnrichWithHttpResponse = (activity, httpResponse) =>
-                        {
-                            activity.SetTag("http.response_content_length",
-                                httpResponse.ContentLength);
-                        };
-                    })
-                    .AddHttpClientInstrumentation(opts =>
-                    {
-                        opts.RecordException = true;
-                    })
-                    .AddEntityFrameworkCoreInstrumentation(opts =>
-                    {
-                        opts.EnrichWithIDbCommand = (activity, command) =>
-                        {
-                            activity.SetTag("db.statement", command.CommandText);
-                            activity.SetTag("db.command_type", command.CommandType.ToString());
-                            activity.SetTag("db.system", "postgresql");
-                        };
-                    })
-                    .AddSource(serviceName)
-                    .AddOtlpExporter(otlpOptions =>
-                    {
-                        otlpOptions.Endpoint = new Uri(otelEndpoint);
-                        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-                        otlpOptions.TimeoutMilliseconds = 10000;
-                    });
+                rb.AddService(serviceName, null, "1.0.0");
             })
-            .WithMetrics(metrics =>
+            .WithTracing(delegate (TracerProviderBuilder tracing)
             {
-                metrics
-                    .AddRuntimeInstrumentation()
+                tracing.AddAspNetCoreInstrumentation(delegate (AspNetCoreTraceInstrumentationOptions opts)
+                {
+                    opts.RecordException = true;
+                    opts.EnrichWithHttpRequest = delegate (Activity activity, HttpRequest httpRequest)
+                    {
+                        activity.SetTag("http.client_ip", httpRequest.HttpContext?.Connection.RemoteIpAddress?.ToString());
+                    };
+                    opts.EnrichWithHttpResponse = delegate (Activity activity, HttpResponse httpResponse)
+                    {
+                        activity.SetTag("http.response_content_length", httpResponse.ContentLength);
+                    };
+                })
+                .AddHttpClientInstrumentation(delegate (HttpClientTraceInstrumentationOptions opts)
+                {
+                    opts.RecordException = true;
+                })
+                .AddEntityFrameworkCoreInstrumentation(delegate (EntityFrameworkInstrumentationOptions opts)
+                {
+                    opts.EnrichWithIDbCommand = delegate (Activity activity, IDbCommand command)
+                    {
+                        activity.SetTag("db.statement", command.CommandText);
+                        activity.SetTag("db.command_type", command.CommandType.ToString());
+                        activity.SetTag("db.system", "postgresql");
+                    };
+                })
+                .AddSource(serviceName)
+                .AddOtlpExporter(delegate (OtlpExporterOptions otlpOptions)
+                {
+                    otlpOptions.Endpoint = new Uri(otelEndpoint);
+                    otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+                    otlpOptions.TimeoutMilliseconds = 10000;
+                });
+            })
+            .WithMetrics(delegate (MeterProviderBuilder metrics)
+            {
+                metrics.AddRuntimeInstrumentation()
                     .AddProcessInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddEventCountersInstrumentation(opts =>
+                    .AddAspNetCoreInstrumentation()
+                    .AddEventCountersInstrumentation(delegate (EventCountersInstrumentationOptions opts)
                     {
-                        opts.AddEventSources(
-                            "Microsoft.AspNetCore.Hosting",
-                            "System.Net.Http",
-                            "System.Net.NameResolution",
-                            "System.Net.Security");
+                        opts.AddEventSources("Microsoft.AspNetCore.Hosting", "System.Net.Http", "System.Net.NameResolution", "System.Net.Security");
                     })
-                    .AddOtlpExporter(otlpOptions =>
+                    .AddOtlpExporter(delegate (OtlpExporterOptions otlpOptions)
                     {
                         otlpOptions.Endpoint = new Uri(otelEndpoint);
                         otlpOptions.Protocol = OtlpExportProtocol.Grpc;

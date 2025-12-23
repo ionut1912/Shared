@@ -24,23 +24,19 @@ public static class DependencyInjection
     /// <summary>
     /// Adds OpenTelemetry logging to the specified <see cref="WebApplicationBuilder"/>.
     /// </summary>
-    public static WebApplicationBuilder AddOpenTelemetry(
-       this WebApplicationBuilder builder,
-       string otelEndpoint,
-       string serviceName,
-       string environmentName)
+    public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder, string otelEndpoint, string serviceName, string environmentName)
     {
-        var resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
+        ResourceBuilder resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
 
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
-        builder.Logging.AddOpenTelemetry(options =>
+        builder.Logging.AddOpenTelemetry(delegate (OpenTelemetryLoggerOptions options)
         {
             options.SetResourceBuilder(resourceBuilder);
             options.IncludeScopes = true;
             options.ParseStateValues = true;
             options.IncludeFormattedMessage = true;
-            options.AddOtlpExporter(otlpOptions =>
+            options.AddOtlpExporter(delegate (OtlpExporterOptions otlpOptions)
             {
                 otlpOptions.Endpoint = new Uri(otelEndpoint);
                 otlpOptions.Protocol = OtlpExportProtocol.Grpc;

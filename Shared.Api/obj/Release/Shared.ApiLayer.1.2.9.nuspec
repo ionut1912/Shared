@@ -5,7 +5,7 @@
     <version>1.2.9</version>
     <authors>ionut1912</authors>
     <description>Shared api layer for microservices</description>
-    <repository type="git" commit="77d480e641caba655ce241bb34ce366868c4be80" />
+    <repository type="git" commit="323b2867b0a41f2dec3fa92c547ff4c864a546d3" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="9.0.11" exclude="Build,Analyzers" />
