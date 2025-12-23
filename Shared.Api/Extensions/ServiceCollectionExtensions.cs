@@ -1,22 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Instrumentation.AspNetCore;
-using OpenTelemetry.Instrumentation.EntityFrameworkCore;
-using OpenTelemetry.Instrumentation.EventCounters;
-using OpenTelemetry.Instrumentation.Http;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Shared.Infra.Settings;
-using System.Data;
-using System.Diagnostics;
 using System.Text;
 
 namespace Shared.Api.Extensions;
@@ -75,93 +62,6 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds OpenTelemetry tracing and metrics to the service collection.
-    /// </summary>
-
-    public static IServiceCollection AddOpenTelemetryObservability(this IServiceCollection services, string otelEndpoint, string serviceName, ResourceBuilder resourceBuilder)
-    {
-        services.AddOpenTelemetry()
-            .ConfigureResource(delegate (ResourceBuilder rb)
-            {
-                rb.AddService(serviceName, null, "1.0.0");
-            })
-            .WithTracing(delegate (TracerProviderBuilder tracing)
-            {
-                tracing.AddAspNetCoreInstrumentation(delegate (AspNetCoreTraceInstrumentationOptions opts)
-                {
-                    opts.RecordException = true;
-                    opts.EnrichWithHttpRequest = delegate (Activity activity, HttpRequest httpRequest)
-                    {
-                        activity.SetTag("http.client_ip", httpRequest.HttpContext?.Connection.RemoteIpAddress?.ToString());
-                    };
-                    opts.EnrichWithHttpResponse = delegate (Activity activity, HttpResponse httpResponse)
-                    {
-                        activity.SetTag("http.response_content_length", httpResponse.ContentLength);
-                    };
-                })
-                .AddHttpClientInstrumentation(delegate (HttpClientTraceInstrumentationOptions opts)
-                {
-                    opts.RecordException = true;
-                })
-                .AddEntityFrameworkCoreInstrumentation(delegate (EntityFrameworkInstrumentationOptions opts)
-                {
-                    opts.EnrichWithIDbCommand = delegate (Activity activity, IDbCommand command)
-                    {
-                        activity.SetTag("db.statement", command.CommandText);
-                        activity.SetTag("db.command_type", command.CommandType.ToString());
-                        activity.SetTag("db.system", "postgresql");
-                    };
-                })
-                .AddSource(serviceName)
-                .AddOtlpExporter(delegate (OtlpExporterOptions otlpOptions)
-                {
-                    otlpOptions.Endpoint = new Uri(otelEndpoint);
-                    otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-                    otlpOptions.TimeoutMilliseconds = 10000;
-                });
-            })
-            .WithMetrics(delegate (MeterProviderBuilder metrics)
-            {
-                metrics.AddRuntimeInstrumentation()
-                    .AddProcessInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddAspNetCoreInstrumentation()
-                    .AddEventCountersInstrumentation(delegate (EventCountersInstrumentationOptions opts)
-                    {
-                        opts.AddEventSources("Microsoft.AspNetCore.Hosting", "System.Net.Http", "System.Net.NameResolution", "System.Net.Security");
-                    })
-                    .AddOtlpExporter(delegate (OtlpExporterOptions otlpOptions)
-                    {
-                        otlpOptions.Endpoint = new Uri(otelEndpoint);
-                        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-                        otlpOptions.TimeoutMilliseconds = 10000;
-                    });
-            });
-
-        return services;
-    }
-
-    /// <summary>
-    /// Adds OpenTelemetry logging to the logging builder.
-    /// </summary>
-    public static ILoggingBuilder AddOpenTelemetryLogging(this ILoggingBuilder logging, string otelEndpoint, ResourceBuilder resourceBuilder)
-    {
-        logging.ClearProviders();
-        logging.AddConsole();
-
-        logging.AddOpenTelemetry(options =>
-        {
-            options.SetResourceBuilder(resourceBuilder);
-            options.IncludeScopes = true;
-            options.IncludeFormattedMessage = true;
-            options.ParseStateValues = true;
-            options.AddOtlpExporter(otlpOptions => otlpOptions.Endpoint = new Uri(otelEndpoint));
-        });
-
-        return logging;
-    }
-
-    /// <summary>
     /// Adds OpenAPI/Swagger documentation with JWT authentication to the service collection.
     /// </summary>
     public static IServiceCollection AddOpenApiWithJwtAuth(this IServiceCollection services, string title, string version = "v1")
@@ -203,21 +103,5 @@ public static class ServiceCollectionExtensions
         });
 
         return services;
-    }
-
-    /// <summary>
-    /// Creates a <see cref="ResourceBuilder"/> for OpenTelemetry.
-    /// </summary>
-    public static ResourceBuilder CreateServiceResourceBuilder(string serviceName, string environmentName)
-    {
-        return ResourceBuilder
-            .CreateDefault()
-            .AddService(serviceName, null, "1.0.0")
-            .AddAttributes(new Dictionary<string, object>
-            {
-                { "environment", environmentName },
-                { "service.namespace", "Freelance" },
-                { "telemetry.sdk.language", "dotnet" }
-            });
     }
 }

@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Resources;
 using Shared.Api.Abstractions;
 using Shared.Api.Handlers;
 using Shared.Application.Behaviours;
@@ -21,32 +17,6 @@ namespace Shared.Api.Extensions;
 /// </summary>
 public static class DependencyInjection
 {
-    /// <summary>
-    /// Adds OpenTelemetry logging to the specified <see cref="WebApplicationBuilder"/>.
-    /// </summary>
-    public static WebApplicationBuilder AddOpenTelemetry(this WebApplicationBuilder builder, string otelEndpoint, string serviceName, string environmentName)
-    {
-        ResourceBuilder resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
-
-        builder.Logging.ClearProviders();
-        builder.Logging.AddConsole();
-        builder.Logging.AddOpenTelemetry(delegate (OpenTelemetryLoggerOptions options)
-        {
-            options.SetResourceBuilder(resourceBuilder);
-            options.IncludeScopes = true;
-            options.ParseStateValues = true;
-            options.IncludeFormattedMessage = true;
-            options.AddOtlpExporter(delegate (OtlpExporterOptions otlpOptions)
-            {
-                otlpOptions.Endpoint = new Uri(otelEndpoint);
-                otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-            });
-        });
-
-        return builder;
-    }
-
-
     /// <summary>
     /// Adds and configures the database context of type <typeparamref name="Tdbc"/>.
     /// </summary>
@@ -155,7 +125,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddAplicationConfig(this IServiceCollection services, Assembly mediatorAssembly, Assembly validationAssembly)
     {
-        services.AddApplicationServices(mediatorAssembly, validationAssembly,typeof(ValidationBehavior<,>).Assembly);
+        services.AddApplicationServices(mediatorAssembly, validationAssembly, typeof(ValidationBehavior<,>).Assembly);
         return services;
     }
 
@@ -170,13 +140,12 @@ public static class DependencyInjection
            string environmentName)
            where T : class, IExceptionProblemDetailsMapper
     {
-        var resourceBuilder = ServiceCollectionExtensions.CreateServiceResourceBuilder(serviceName, environmentName);
 
         services
             .AddJwtAuthentication(configuration)
             .AddRoleBasedAuthorization();
 
-        services.AddOpenTelemetryObservability(otelEndpoint, serviceName, resourceBuilder);
+        services.AddOpenTelemetryObservability(otelEndpoint, serviceName);
 
         services.AddOpenApiWithJwtAuth(serviceName + "-Api");
         services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
