@@ -41,16 +41,21 @@ public static class OpenTelemetryExtensions
     {
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
+
         builder.Logging.AddOpenTelemetry(options =>
         {
             options.SetResourceBuilder(resourceBuilder);
             options.IncludeScopes = true;
             options.ParseStateValues = true;
             options.IncludeFormattedMessage = true;
+
             options.AddOtlpExporter(otlpOptions =>
             {
-                otlpOptions.Endpoint = new Uri($"{lokiEndpoint.TrimEnd('/')}/otlp");
+                // Correct endpoint format for Loki OTLP
+                otlpOptions.Endpoint = new Uri($"{lokiEndpoint.TrimEnd('/')}/otlp/v1/logs");
                 otlpOptions.Protocol = OtlpExportProtocol.HttpProtobuf;
+
+                otlpOptions.Headers = "X-Scope-OrgID=tenant1";
             });
         });
 
@@ -65,10 +70,7 @@ public static class OpenTelemetryExtensions
     /// <param name="otelEndpoint">The OTLP gRPC endpoint for traces and metrics.</param>
     /// <param name="serviceName">The name of the service.</param>
     /// <returns>The same <see cref="IServiceCollection"/> for chaining.</returns>
-    public static IServiceCollection AddOpenTelemetryObservability(
-        this IServiceCollection services,
-        string otelEndpoint,
-        string serviceName)
+    public static IServiceCollection AddOpenTelemetryObservability(this IServiceCollection services, string otelEndpoint, string serviceName)
     {
         services.AddOpenTelemetry()
             .WithTracing(tracing =>
@@ -85,23 +87,26 @@ public static class OpenTelemetryExtensions
                         activity.SetTag("http.response_content_length", response.ContentLength);
                     };
                 })
-                .AddHttpClientInstrumentation(opts => opts.RecordException = true)
-                .AddEntityFrameworkCoreInstrumentation(opts =>
-                {
-                    opts.EnrichWithIDbCommand = (activity, command) =>
+                    .AddHttpClientInstrumentation(opts =>
                     {
-                        activity.SetTag("db.statement", command.CommandText);
-                        activity.SetTag("db.command_type", command.CommandType.ToString());
-                        activity.SetTag("db.system", "postgresql");
-                    };
-                })
-                .AddSource(serviceName)
-                .AddOtlpExporter(otlpOptions =>
-                {
-                    otlpOptions.Endpoint = new Uri(otelEndpoint);
-                    otlpOptions.Protocol = OtlpExportProtocol.Grpc;
-                    otlpOptions.TimeoutMilliseconds = 10000;
-                });
+                        opts.RecordException = true;
+                    })
+                    .AddEntityFrameworkCoreInstrumentation(opts =>
+                    {
+                        opts.EnrichWithIDbCommand = (activity, command) =>
+                        {
+                            activity.SetTag("db.statement", command.CommandText);
+                            activity.SetTag("db.command_type", command.CommandType.ToString());
+                            activity.SetTag("db.system", "postgresql");
+                        };
+                    })
+                    .AddSource(serviceName)
+                    .AddOtlpExporter(otlpOptions =>
+                    {
+                        otlpOptions.Endpoint = new Uri(otelEndpoint);
+                        otlpOptions.Protocol = OtlpExportProtocol.Grpc;
+                        otlpOptions.TimeoutMilliseconds = 10000;
+                    });
             })
             .WithMetrics(metrics =>
             {
@@ -111,11 +116,7 @@ public static class OpenTelemetryExtensions
                     .AddAspNetCoreInstrumentation()
                     .AddEventCountersInstrumentation(opts =>
                     {
-                        opts.AddEventSources(
-                            "Microsoft.AspNetCore.Hosting",
-                            "System.Net.Http",
-                            "System.Net.NameResolution",
-                            "System.Net.Security");
+                        opts.AddEventSources("Microsoft.AspNetCore.Hosting", "System.Net.Http", "System.Net.NameResolution", "System.Net.Security");
                     })
                     .AddOtlpExporter(otlpOptions =>
                     {

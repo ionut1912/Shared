@@ -132,28 +132,17 @@ public static class DependencyInjection
     /// <summary>
     /// Adds and configures the presentation layer services.
     /// </summary>
-    public static IServiceCollection AddPresentation<T>(
-           this IServiceCollection services,
-           IConfiguration configuration,
-           string otelEndpoint,
-           string serviceName,
-           string environmentName)
-           where T : class, IExceptionProblemDetailsMapper
+    public static IServiceCollection AddPresentation<T>(this IServiceCollection services, IConfiguration configuration, string otelEndpoint, string serviceName, string environmentName)
+        where T : class, IExceptionProblemDetailsMapper
     {
-
-        services
-            .AddJwtAuthentication(configuration)
-            .AddRoleBasedAuthorization();
-
+        services.AddJwtAuthentication(configuration).AddRoleBasedAuthorization();
         services.AddOpenTelemetryObservability(otelEndpoint, serviceName);
-
         services.AddOpenApiWithJwtAuth(serviceName + "-Api");
         services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
         services.AddSingleton<IExceptionProblemDetailsMapper, T>();
         services.AddHealthChecks();
         services.AddEndpointsApiExplorer();
         services.AddControllers();
-
         return services;
     }
 }
