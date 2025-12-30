@@ -83,18 +83,33 @@ public static partial class EndpointRouteBuilderExtensions
     }
 
     /// <summary>
-    /// Automatically discovers and maps all endpoint groups in the executing assembly.
+    /// Automatically discovers and maps all endpoint groups in the specified assembly.
     /// </summary>
     /// <param name="endpoints">The endpoint route builder.</param>
+    /// <param name="assembly">
+    /// The assembly to scan for endpoint groups. If null, scans the calling assembly.
+    /// </param>
     /// <returns>The <see cref="IEndpointRouteBuilder"/> for chaining.</returns>
     /// <remarks>
-    /// This method scans the executing assembly for all types that inherit from <see cref="EndpointGroup"/>,
-    /// creates instances of them, and invokes their Map method to register endpoints.
+    /// This method scans the specified assembly (or the calling assembly if not provided) for all types 
+    /// that inherit from <see cref="EndpointGroup"/>, creates instances of them, and invokes their Map 
+    /// method to register endpoints.
     /// </remarks>
-    public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder endpoints)
+    /// <example>
+    /// <code>
+    /// // Scan the calling assembly
+    /// app.MapEndpoints();
+    /// 
+    /// // Scan a specific assembly
+    /// app.MapEndpoints(typeof(UserEndpointGroup).Assembly);
+    /// </code>
+    /// </example>
+    public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder endpoints, Assembly? assembly = null)
     {
         var endpointGroupType = typeof(EndpointGroup);
-        var endpointGroupTypes = Assembly.GetExecutingAssembly().GetExportedTypes()
+        var targetAssembly = assembly ?? Assembly.GetCallingAssembly();
+
+        var endpointGroupTypes = targetAssembly.GetExportedTypes()
             .Where(t => t.IsSubclassOf(endpointGroupType));
 
         foreach (var type in endpointGroupTypes)
