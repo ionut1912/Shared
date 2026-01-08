@@ -208,4 +208,16 @@
 /Shared.Domain/obj/Debug/Shared.DomainLayer.1.0.0.nuspec
 /Shared.Api/obj/Shared.Api.csproj.nuget.g.props
 /Shared.Api/obj/Shared.Api.csproj.nuget.g.targets
-/Shared.Api/bin/Release/net9.0/Shared.Api.xml
+/Shared.Api/bin/Release/net9.0/
+/Shared.Infra/bin
+/Shared.Infra/obj
+/Shared.Domain/bin/Debug
+/Shared.Domain/bin/Release/net9.0/
+
+/Shared.Domain/bin/Release/net9.0/Shared.Domain.xml
+/Shared.Domain/bin/Release/net9.0/Shared.Domain.xml
+*.nupkg
+*.nuspec
+/Shared.Domain/obj/Release/net9.0/Shared.Domain.csproj.CoreCompileInputs.cache
+/Shared.Domain/bin/Release/net9.0/Shared.Domain.xml
+/Shared.Domain/obj/Release/net9.0/Shared.Domain.csproj.CoreCompileInputs.cache
