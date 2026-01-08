@@ -3,7 +3,7 @@
   <TargetFramework>net9.0</TargetFramework>
   <ImplicitUsings>enable</ImplicitUsings>
   <Nullable>enable</Nullable>
-  <Version>1.0.6</Version>
+  <Version>1.0.8</Version>
   <Authors>ionut1912</Authors>
   <Company>Shared</Company>
   <PackageId>Shared.InfraLayer</PackageId>
@@ -15,9 +15,9 @@
   <DocumentationFile>bin\Release\net9.0\Shared.Infra.xml</DocumentationFile>
 </PropertyGroup>
 <ItemGroup>
-  <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.0" />
+  <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.9" />
   <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
   <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-  <PackageReference Include="Shared.DomainLayer" Version="1.1.1" />
+  <PackageReference Include="Shared.DomainLayer" Version="1.1.2" />
 </ItemGroup>
 </Project>

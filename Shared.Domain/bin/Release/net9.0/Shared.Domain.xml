@@ -66,6 +66,86 @@
             <param name="b">The second entity.</param>
             <returns><c>true</c> if the entities are not equal; otherwise, <c>false</c>.</returns>
         </member>
+        <member name="T:Shared.Domain.Common.Money">
+            <summary>
+            Represents a monetary value with an amount and a currency.
+            This is a value object and is immutable.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Domain.Common.Money"/> class.
+            Parameterless constructor required by EF Core.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.#ctor(System.Decimal,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Shared.Domain.Common.Money"/> class
+            with the specified amount and currency.
+            </summary>
+            <param name="amount">The monetary amount. Must be non-negative.</param>
+            <param name="currency">The ISO currency code (e.g. USD, EUR).</param>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the amount is negative or the currency is null or empty.
+            </exception>
+        </member>
+        <member name="P:Shared.Domain.Common.Money.Amount">
+            <summary>
+            Gets the monetary amount.
+            </summary>
+        </member>
+        <member name="P:Shared.Domain.Common.Money.Currency">
+            <summary>
+            Gets the currency code in uppercase invariant format.
+            </summary>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.Create(System.Decimal,System.String)">
+            <summary>
+            Creates a new <see cref="T:Shared.Domain.Common.Money"/> instance.
+            </summary>
+            <param name="amount">The monetary amount. Must be non-negative.</param>
+            <param name="currency">The ISO currency code (e.g. USD, EUR).</param>
+            <returns>A new <see cref="T:Shared.Domain.Common.Money"/> instance.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.Add(Shared.Domain.Common.Money)">
+            <summary>
+            Adds another <see cref="T:Shared.Domain.Common.Money"/> value to this instance.
+            </summary>
+            <param name="other">The money value to add.</param>
+            <returns>A new <see cref="T:Shared.Domain.Common.Money"/> instance representing the sum.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the currencies do not match.
+            </exception>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.Subtract(Shared.Domain.Common.Money)">
+            <summary>
+            Subtracts another <see cref="T:Shared.Domain.Common.Money"/> value from this instance.
+            </summary>
+            <param name="other">The money value to subtract.</param>
+            <returns>A new <see cref="T:Shared.Domain.Common.Money"/> instance representing the difference.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the currencies do not match.
+            </exception>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.Multiply(System.Decimal)">
+            <summary>
+            Multiplies the monetary amount by the specified multiplier.
+            </summary>
+            <param name="multiplier">The multiplier to apply.</param>
+            <returns>A new <see cref="T:Shared.Domain.Common.Money"/> instance with the multiplied amount.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.GetEqualityComponents">
+            <summary>
+            Returns the components used to determine value equality.
+            </summary>
+            <returns>An enumerable of equality components.</returns>
+        </member>
+        <member name="M:Shared.Domain.Common.Money.ToString">
+            <summary>
+            Returns a formatted string representation of the monetary value.
+            </summary>
+            <returns>A string in the format "Amount Currency".</returns>
+        </member>
         <member name="T:Shared.Domain.Common.ValidationError">
             <summary>
             Represents a validation failure for a specific property.
