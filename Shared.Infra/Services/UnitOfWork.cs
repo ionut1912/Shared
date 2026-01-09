@@ -4,30 +4,44 @@ using Shared.Domain.Interfaces;
 namespace Shared.Infra.Services;
 
 /// <summary>
-/// Implements the unit of work pattern for a specific <see cref="DbContext"/> type.
-/// Provides a single point to commit changes to the database.
+/// Provides a concrete implementation of the Unit of Work pattern
+/// for Entity Framework Core.
 /// </summary>
-/// <typeparam name="T">The type of <see cref="DbContext"/> managed by this unit of work.</typeparam>
-public class UnitOfWork<T> : IUnitOfWork<T> where T : DbContext
+/// <remarks>
+/// This class represents a transactional boundary, coordinating the
+/// persistence of changes made through a single <see cref="DbContext"/>.
+/// </remarks>
+public class UnitOfWork : IUnitOfWork
 {
-    private readonly T _context;
+    private readonly DbContext _context;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UnitOfWork{T}"/> class with the specified database context.
+    /// Initializes a new instance of the <see cref="UnitOfWork"/> class
+    /// using the provided database context.
     /// </summary>
-    /// <param name="context">The <see cref="DbContext"/> to manage.</param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="context"/> is <c>null</c>.</exception>
-    public UnitOfWork(T context)
+    /// <param name="context">
+    /// The <see cref="DbContext"/> instance whose changes will be tracked
+    /// and committed as part of this unit of work.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when <paramref name="context"/> is <c>null</c>.
+    /// </exception>
+    public UnitOfWork(DbContext context)
     {
         ArgumentNullException.ThrowIfNull(context, nameof(context));
         _context = context;
     }
 
     /// <summary>
-    /// Saves all changes made in the current unit of work to the database asynchronously.
+    /// Persists all pending changes tracked by the underlying
+    /// <see cref="DbContext"/> to the database.
     /// </summary>
-    /// <param name="cancellationToken">A token to observe while waiting for the save operation to complete.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous save operation.</returns>
+    /// <param name="cancellationToken">
+    /// A token that can be used to cancel the save operation.
+    /// </param>
+    /// <returns>
+    /// A task that represents the asynchronous save operation.
+    /// </returns>
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await _context.SaveChangesAsync(cancellationToken);

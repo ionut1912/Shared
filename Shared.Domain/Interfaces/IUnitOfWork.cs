@@ -3,16 +3,25 @@
 namespace Shared.Domain.Interfaces;
 
 /// <summary>
-/// Represents a unit of work pattern for a database context.
-/// Encapsulates transaction management and ensures that changes are saved atomically.
+/// Defines a Unit of Work abstraction for coordinating changes
+/// across one or more repositories backed by an Entity Framework Core
+/// <see cref="DbContext"/>.
 /// </summary>
-/// <typeparam name="T">The type of <see cref="DbContext"/> used by this unit of work.</typeparam>
-public interface IUnitOfWork<T> where T : DbContext
+/// <remarks>
+/// A unit of work represents a single transactional boundary,
+/// ensuring that all changes are persisted atomically.
+/// </remarks>
+public interface IUnitOfWork
 {
     /// <summary>
-    /// Saves all changes made in the current unit of work to the database asynchronously.
+    /// Persists all pending changes made within the current unit of work
+    /// to the underlying data store.
     /// </summary>
-    /// <param name="cancellationToken">A token to observe while waiting for the operation to complete.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous save operation.</returns>
+    /// <param name="cancellationToken">
+    /// A token used to cancel the save operation.
+    /// </param>
+    /// <returns>
+    /// A task that represents the asynchronous save operation.
+    /// </returns>
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

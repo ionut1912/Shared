@@ -298,19 +298,28 @@
             The entity to delete.
             </param>
         </member>
-        <member name="T:Shared.Domain.Interfaces.IUnitOfWork`1">
+        <member name="T:Shared.Domain.Interfaces.IUnitOfWork">
             <summary>
-            Represents a unit of work pattern for a database context.
-            Encapsulates transaction management and ensures that changes are saved atomically.
+            Defines a Unit of Work abstraction for coordinating changes
+            across one or more repositories backed by an Entity Framework Core
+            <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/>.
             </summary>
-            <typeparam name="T">The type of <see cref="T:Microsoft.EntityFrameworkCore.DbContext"/> used by this unit of work.</typeparam>
+            <remarks>
+            A unit of work represents a single transactional boundary,
+            ensuring that all changes are persisted atomically.
+            </remarks>
         </member>
-        <member name="M:Shared.Domain.Interfaces.IUnitOfWork`1.SaveChangesAsync(System.Threading.CancellationToken)">
+        <member name="M:Shared.Domain.Interfaces.IUnitOfWork.SaveChangesAsync(System.Threading.CancellationToken)">
             <summary>
-            Saves all changes made in the current unit of work to the database asynchronously.
+            Persists all pending changes made within the current unit of work
+            to the underlying data store.
             </summary>
-            <param name="cancellationToken">A token to observe while waiting for the operation to complete.</param>
-            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that represents the asynchronous save operation.</returns>
+            <param name="cancellationToken">
+            A token used to cancel the save operation.
+            </param>
+            <returns>
+            A task that represents the asynchronous save operation.
+            </returns>
         </member>
     </members>
 </doc>

@@ -56,6 +56,7 @@ public static class DatabaseExtension
         services.AddDbContext<TContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+        services.AddScoped<DbContext>(provider => provider.GetRequiredService<TContext>());
         return services;
     }
 }
