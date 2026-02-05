@@ -1,0 +1,122 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
+using Shared.Infra.Settings;
+using System.Text;
+
+namespace Shared.Api.Extensions;
+
+/// <summary>
+/// Provides extension methods for configuring dependency injection and OpenTelemetry services.
+/// </summary>
+public static class ServiceCollectionExtensions
+{
+    /// <summary>
+    /// Adds JWT authentication to the service collection.
+    /// </summary>
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        var jwtSettings = configuration.GetSection("JwtSettings");
+        services.Configure<JwtSettings>(jwtSettings);
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            var key = jwtSettings["Key"];
+            if (string.IsNullOrEmpty(key))
+                throw new InvalidOperationException("JWT Key is missing in configuration.");
+
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+            };
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Adds role-based authorization policies to the service collection.
+    /// </summary>
+    public static IServiceCollection AddRoleBasedAuthorization(this IServiceCollection services,List<string> requiredPolicies,List<string> requiredRoles)
+    {
+        services.AddAuthorization(options =>
+        {
+
+            for(int i= 0; i < requiredPolicies.Count; i++)
+            {
+                var policy = requiredPolicies[i];
+                var role = requiredRoles[i];
+                options.AddPolicy(policy, policyBuilder =>
+                {
+                    policyBuilder.RequireRole(role);
+                });
+            }
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Adds OpenAPI/Swagger documentation with JWT authentication to the service collection.
+    /// </summary>
+    public static IServiceCollection AddOpenApiWithJwtAuth(this IServiceCollection services, string title, string version = "v1")
+    {
+        services.AddOpenApi(version, options =>
+        {
+            options.AddDocumentTransformer((document, context, cancellationToken) =>
+            {
+                document.Info.Title = title;
+                document.Info.Version = version;
+
+                // 1. Define the Component (The "Lock")
+                var jwtScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                };
+
+                document.Components ??= new OpenApiComponents();
+                document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+                document.Components.SecuritySchemes["Bearer"] = jwtScheme;
+
+                // 2. Define the Requirement (The "Rule")
+                document.Security ??= new List<OpenApiSecurityRequirement>();
+
+                var requirement = new OpenApiSecurityRequirement
+                {
+                    {
+                        // FIX: Use the Constructor, not property initializers.
+                        // Arg 1: The ID of the scheme ("Bearer")
+                        // Arg 2: The document context (so it knows where to look)
+                        new OpenApiSecuritySchemeReference("Bearer", document),
+
+                        new List<string>()
+                    }
+                };
+
+                document.Security.Add(requirement);
+
+                return Task.CompletedTask;
+            });
+        });
+
+        return services;
+    }
+}

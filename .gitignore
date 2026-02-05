@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Shared.Api/nuget.config
+/Shared.Application/nuget.config
+/Shared.Domain/nuget.config
+/Shared.Infra/nuget.config
+/Shared.Rabbit/nuget.config
