@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace Shared.Api.Infrastructure;
+namespace Shared.Api.Endpoints;
 
 /// <summary>
 /// Provides a base class for defining endpoint groups in the web API.
