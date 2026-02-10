@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>ionut1912</Authors>
 		<Company>Shared</Company>
 		<PackageId>Shared.Infra</PackageId>
@@ -19,5 +19,6 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
 		<PackageReference Include="Shared.Domain" Version="1.0.0" />
+		<PackageReference Include="WolverineFx.EntityFrameworkCore" Version="5.14.0" />
 	</ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Wolverine.EntityFrameworkCore;
 
 namespace Shared.Infra.Extensions;
 
@@ -53,7 +54,7 @@ public static class DatabaseExtension
         this IServiceCollection services,
         IConfiguration configuration) where TContext : DbContext
     {
-        services.AddDbContext<TContext>(options =>
+        services.AddDbContextWithWolverineIntegration<TContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<DbContext>(provider => provider.GetRequiredService<TContext>());
