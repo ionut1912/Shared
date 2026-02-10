@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		<Authors>ionut1912</Authors>
 		<Company>Shared</Company>
 		<PackageId>Shared.Api</PackageId>
@@ -22,7 +22,7 @@
 
 		<PackageReference Include="Microsoft.OpenApi" Version="2.0.0" />
 
-		<PackageReference Include="Shared.Application" Version="1.0.0" />
+		<PackageReference Include="Shared.Application" Version="1.0.1" />
 		<PackageReference Include="Shared.Infra" Version="1.0.0" />
 
 		<PackageReference Include="OpenTelemetry" Version="1.15.0" />
@@ -38,5 +38,13 @@
 		<PackageReference Include="OpenTelemetry.Instrumentation.EventCounters" Version="1.14.0-alpha.1" />
 
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+
+		<PackageReference Include="WolverineFx" Version="5.14.0" />
+
+		<PackageReference Include="WolverineFx.EntityFrameworkCore" Version="5.14.0" />
+
+		<PackageReference Include="WolverineFx.Postgresql" Version="5.14.0" />
+
+		<PackageReference Include="WolverineFx.RabbitMQ" Version="5.14.0" />
 	</ItemGroup>
 </Project>

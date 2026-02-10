@@ -3,5 +3,4 @@
   <Project Path="Shared.Application/Shared.Application.csproj" Id="dddcd9af-2342-4f7c-b07f-8b1495ddd688" />
   <Project Path="Shared.Domain/Shared.Domain.csproj" Id="8883bf80-e55a-4cac-a38c-572e1a1c803b" />
   <Project Path="Shared.Infra/Shared.Infra.csproj" Id="f7da37af-3c85-46b0-98dd-a7b7a0a658a9" />
-  <Project Path="Shared.Rabbit/Shared.Rabbit.csproj" Id="7faab7d4-2236-4829-9de1-d9e8ea1c1e72" />
 </Solution>

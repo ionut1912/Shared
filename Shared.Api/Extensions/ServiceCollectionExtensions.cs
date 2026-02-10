@@ -50,12 +50,12 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds role-based authorization policies to the service collection.
     /// </summary>
-    public static IServiceCollection AddRoleBasedAuthorization(this IServiceCollection services,List<string> requiredPolicies,List<string> requiredRoles)
+    public static IServiceCollection AddRoleBasedAuthorization(this IServiceCollection services, List<string> requiredPolicies, List<string> requiredRoles)
     {
         services.AddAuthorization(options =>
         {
 
-            for(int i= 0; i < requiredPolicies.Count; i++)
+            for (int i = 0; i < requiredPolicies.Count; i++)
             {
                 var policy = requiredPolicies[i];
                 var role = requiredRoles[i];

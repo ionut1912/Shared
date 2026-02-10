@@ -132,7 +132,7 @@ public static class DependencyInjection
     /// <summary>
     /// Adds and configures the presentation layer services.
     /// </summary>
-    public static IServiceCollection AddPresentation<T>(this IServiceCollection services, IConfiguration configuration, string otelEndpoint, string serviceName, string environmentName, bool needsRoles = false, List<string>? requiredPolicies=null,List<string>? requiredRoles=null)
+    public static IServiceCollection AddPresentation<T>(this IServiceCollection services, IConfiguration configuration, string otelEndpoint, string serviceName, string environmentName, bool needsRoles = false, List<string>? requiredPolicies = null, List<string>? requiredRoles = null)
         where T : class, IExceptionProblemDetailsMapper
     {
         services.AddJwtAuthentication(configuration);
@@ -151,7 +151,7 @@ public static class DependencyInjection
                 throw new ArgumentException("The number of policies must match the number of roles.");
             }
 
-            services.AddRoleBasedAuthorization(requiredPolicies,requiredRoles);
+            services.AddRoleBasedAuthorization(requiredPolicies, requiredRoles);
         }
 
         services.AddOpenTelemetryObservability(otelEndpoint, serviceName);
