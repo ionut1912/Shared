@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using JasperFx.Core;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using Shared.Application.Options;
 using System.Reflection;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
+using Wolverine.ErrorHandling;
 using Wolverine.Postgresql;
 using Wolverine.RabbitMQ;
 
+namespace Shared.Api.Extensions;
 /// <summary>
 /// Provides extension methods for configuring Wolverine messaging within the application.
 /// </summary>
@@ -28,48 +32,62 @@ public static class WolverineExtensions
     /// <item><description>Automatic provisioning of RabbitMQ exchanges and queues.</description></item>
     /// </list>
     /// </remarks>
-    public static WebApplicationBuilder AddWolverineMessaging(
-        this WebApplicationBuilder builder,
-        Assembly handlersAssembly,
-        Action<WebApplicationBuilder, WolverineOptions> configureEndpoints)
-    {
-        // Step 1: Bind RabbitMQ settings so messaging config can read them.
-        builder.Services.AddOptions<RabbitMqOptions>()
-            .BindConfiguration(RabbitMqOptions.SectionName)
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-
-        builder.Host.UseWolverine((opt) =>
+        public static WebApplicationBuilder AddWolverineMessaging(
+            this WebApplicationBuilder builder,
+            Assembly handlersAssembly,
+            Action<WebApplicationBuilder, WolverineOptions> configureEndpoints)
         {
-            // Step 2: Register handlers for Wolverine's discovery.
-            opt.Discovery.IncludeAssembly(handlersAssembly);
+            // Step 1: Bind RabbitMQ settings.
+            builder.Services.AddOptions<RabbitMqOptions>()
+                .BindConfiguration(RabbitMqOptions.SectionName)
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
-            // Step 3: Enable transactional message handling and outbox persistence.
-            opt.UseEntityFrameworkCoreTransactions();
-            opt.PersistMessagesWithPostgresql(
-                builder.Configuration.GetConnectionString("DefaultConnection")!);
-            opt.Policies.UseDurableLocalQueues();
-            opt.Policies.UseDurableOutboxOnAllSendingEndpoints();
-            opt.Policies.AutoApplyTransactions();
-
-            // Step 4: Load RabbitMQ connection options from configuration.
-            var rabbitOptions = builder.Configuration
-                .GetSection(RabbitMqOptions.SectionName)
-                .Get<RabbitMqOptions>()!;
-
-            // Step 5: Configure RabbitMQ transport and provision endpoints.
-            opt.UseRabbitMq(rabbit =>
+            builder.Host.UseWolverine((opts) =>
             {
-                rabbit.HostName = rabbitOptions.Host;
-                rabbit.Port = rabbitOptions.Port;
-                rabbit.UserName = rabbitOptions.Username;
-                rabbit.Password = rabbitOptions.Password;
-            }).AutoProvision();
+                // Step 2: Discovery
+                opts.Discovery.IncludeAssembly(handlersAssembly);
 
-            // Step 6: Apply app-specific publish/subscribe routing.
-            configureEndpoints(builder, opt);
-        });
+                // Step 3: Persistence
+                opts.UseEntityFrameworkCoreTransactions();
+                opts.PersistMessagesWithPostgresql(
+                    builder.Configuration.GetConnectionString("DefaultConnection")!, "public");
 
-        return builder;
+                opts.Policies.UseDurableLocalQueues();
+                opts.Policies.UseDurableOutboxOnAllSendingEndpoints();
+                opts.Policies.AutoApplyTransactions();
+
+                // Step 4: ERROR POLICIES
+
+                // OPTION A: Simple "Wait and Retry"
+                // If Npgsql fails, wait 10 seconds before trying this message again.
+                // This allows the DB to restart and the connection pool to flush.
+                opts.Policies.OnException<NpgsqlException>()
+                    .ScheduleRetry(10.Seconds());
+
+
+                // General error handling
+                opts.Policies.OnException<Exception>()
+                    .RetryTimes(3);
+
+                // Step 5: RabbitMQ Config
+                var rabbitOptions = builder.Configuration
+                    .GetSection(RabbitMqOptions.SectionName)
+                    .Get<RabbitMqOptions>();
+
+                // Step 6: RabbitMQ Transport
+                opts.UseRabbitMq(rabbit =>
+                {
+                    rabbit.HostName = rabbitOptions!.Host;
+                    rabbit.Port = rabbitOptions.Port;
+                    rabbit.UserName = rabbitOptions.Username;
+                    rabbit.Password = rabbitOptions.Password;
+                }).AutoProvision();
+
+                // Step 7: Endpoints
+                configureEndpoints(builder, opts);
+            });
+
+            return builder;
+        }
     }
-}
