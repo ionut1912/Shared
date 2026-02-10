@@ -158,7 +158,11 @@ public static class DependencyInjection
         services.AddOpenApiWithJwtAuth(serviceName + "-Api");
         services.AddSingleton<IExceptionHandler, GlobalExceptionHandler>();
         services.AddSingleton<IExceptionProblemDetailsMapper, T>();
-        services.AddHealthChecks();
+        services.AddHealthChecks()
+                .AddNpgSql(
+        connectionString: configuration.GetConnectionString("DefaultConnection")!,
+        name: "postgres",
+        tags: ["ready"]); ;
         services.AddEndpointsApiExplorer();
         services.AddControllers();
         return services;

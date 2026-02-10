@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
+using Shared.Api.Endpoints;
 using System.Diagnostics;
 
 namespace Shared.Api.Extensions;
@@ -140,8 +141,8 @@ public static class ApplicationBuilderExtensions
     public static IApplicationBuilder MapStandardEndpoints(this IApplicationBuilder app)
     {
         var routeBuilder = (IEndpointRouteBuilder)app;
-
-        routeBuilder.MapHealthChecks("/health");
+        
+        routeBuilder.MapHealthEndpoints();
         routeBuilder.MapGet("/metrics", async context =>
         {
             context.Response.StatusCode = 204;
