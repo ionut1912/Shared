@@ -141,7 +141,7 @@ public static class ApplicationBuilderExtensions
     public static IApplicationBuilder MapStandardEndpoints(this IApplicationBuilder app)
     {
         var routeBuilder = (IEndpointRouteBuilder)app;
-        
+
         routeBuilder.MapHealthEndpoints();
         routeBuilder.MapGet("/metrics", async context =>
         {

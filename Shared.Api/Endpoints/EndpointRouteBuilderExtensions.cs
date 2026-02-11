@@ -62,7 +62,7 @@ public static partial class EndpointRouteBuilderExtensions
     /// <param name="handler">The delegate that handles the PUT request.</param>
     /// <param name="pattern">The route pattern.</param>
     /// <returns>The <see cref="IEndpointRouteBuilder"/> for chaining.</returns>
-    public static IEndpointRouteBuilder MapPut(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern)
+    public static IEndpointRouteBuilder MapPut(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
     {
         builder.MapPut(pattern, handler)
             .WithName(handler.Method.Name);
@@ -76,7 +76,7 @@ public static partial class EndpointRouteBuilderExtensions
     /// <param name="handler">The delegate that handles the DELETE request.</param>
     /// <param name="pattern">The route pattern.</param>
     /// <returns>The <see cref="IEndpointRouteBuilder"/> for chaining.</returns>
-    public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern)
+    public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
     {
         builder.MapDelete(pattern, handler)
             .WithName(handler.Method.Name);
