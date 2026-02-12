@@ -3,7 +3,7 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.9</Version>
+		<Version>1.1.0</Version>
 		<Authors>ionut1912</Authors>
 		<Company>Shared</Company>
 		<PackageId>Shared.Api</PackageId>
@@ -17,14 +17,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
-		<PackageReference Include="Scalar.AspNetCore" Version="2.12.36" />
-
-		<PackageReference Include="Microsoft.OpenApi" Version="2.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.12.38" />
 		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-		<PackageReference Include="Shared.Application" Version="1.0.3" />
-		<PackageReference Include="Shared.Infra" Version="1.0.1" />
+		<PackageReference Include="Shared.Application" Version="1.0.4" />
+		<PackageReference Include="Shared.Infra" Version="1.0.3" />
 
 		<PackageReference Include="OpenTelemetry" Version="1.15.0" />
 		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
@@ -40,12 +38,12 @@
 
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
 
-		<PackageReference Include="WolverineFx" Version="5.14.0" />
+		<PackageReference Include="WolverineFx" Version="5.15.0" />
 
-		<PackageReference Include="WolverineFx.FluentValidation" Version="5.14.0" />
+		<PackageReference Include="WolverineFx.FluentValidation" Version="5.15.0" />
 
-		<PackageReference Include="WolverineFx.Postgresql" Version="5.14.0" />
+		<PackageReference Include="WolverineFx.Postgresql" Version="5.15.0" />
 
-		<PackageReference Include="WolverineFx.RabbitMQ" Version="5.14.0" />
+		<PackageReference Include="WolverineFx.RabbitMQ" Version="5.15.0" />
 	</ItemGroup>
 </Project>
