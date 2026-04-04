@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Shared.Domain.Common;
 
 namespace Shared.Domain.Interfaces;
 
@@ -8,7 +9,7 @@ namespace Shared.Domain.Interfaces;
 /// <typeparam name="T">
 ///     The entity type managed by the repository.
 /// </typeparam>
-public interface IGenericRepository<T> where T : class
+public interface IGenericRepository<T> where T : Entity
 {
     /// <summary>
     ///     Asynchronously adds a new entity to the repository.

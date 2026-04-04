@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Shared.Domain.Common;
 using Shared.Domain.Interfaces;
 
 namespace Shared.Infra.Services;
 
 /// <inheritdoc />
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<T> : IGenericRepository<T> where T : Entity
 {
     private readonly DbSet<T> _dbSet;
 
