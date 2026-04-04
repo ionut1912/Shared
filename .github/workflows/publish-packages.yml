@@ -5,28 +5,27 @@ on:
     branches: [master]
     paths:
       - 'Shared.Domain/**'
-      - 'Shared.Application/**'
       - 'Shared.Infra/**'
+      - 'Shared.Application/**'
       - 'Shared.Api/**'
-      - '.github/workflows/publish-packages.yml'
   workflow_dispatch:
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_NOLOGO: true
-  NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GITHUB_FEED: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 
+permissions:
+  packages: write
+  contents: read
+
 jobs:
-  # ─────────────────────────────────────────────
-  # JOB 1 — detect which packages actually changed
-  # ─────────────────────────────────────────────
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
       domain:      ${{ steps.filter.outputs.domain }}
-      application: ${{ steps.filter.outputs.application }}
       infra:       ${{ steps.filter.outputs.infra }}
+      application: ${{ steps.filter.outputs.application }}
       api:         ${{ steps.filter.outputs.api }}
     steps:
       - uses: actions/checkout@v4
@@ -40,23 +39,17 @@ jobs:
           filters: |
             domain:
               - 'Shared.Domain/**'
-            application:
-              - 'Shared.Application/**'
             infra:
               - 'Shared.Infra/**'
+            application:
+              - 'Shared.Application/**'
             api:
               - 'Shared.Api/**'
 
-  # ─────────────────────────────────────────────
-  # JOB 2 — Shared.Domain (no internal deps, always first)
-  # ─────────────────────────────────────────────
   publish-domain:
     needs: detect-changes
     if: needs.detect-changes.outputs.domain == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -68,16 +61,10 @@ jobs:
         run: dotnet restore Shared.Domain/Shared.Domain.csproj
 
       - name: Build
-        run: |
-          dotnet build Shared.Domain/Shared.Domain.csproj \
-            --configuration Release --no-restore
+        run: dotnet build Shared.Domain/Shared.Domain.csproj --configuration Release --no-restore
 
       - name: Pack
-        run: |
-          dotnet pack Shared.Domain/Shared.Domain.csproj \
-            --configuration Release \
-            --no-build \
-            --output ./nupkg
+        run: dotnet pack Shared.Domain/Shared.Domain.csproj --configuration Release --no-build --output ./nupkg
 
       - name: Push
         run: |
@@ -86,65 +73,16 @@ jobs:
             --api-key "${{ secrets.GITHUB_TOKEN }}" \
             --skip-duplicate
 
-  # ─────────────────────────────────────────────
-  # JOB 3 — Shared.Application (depends on Domain)
-  # ─────────────────────────────────────────────
-  publish-application:
-    needs: [detect-changes, publish-domain]
-    if: |
-      always() &&
-      !failure() &&
-      (needs.detect-changes.outputs.application == 'true' ||
-       needs.detect-changes.outputs.domain == 'true' ||
-       github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.x'
-
-      - name: Restore
-        run: dotnet restore Shared.Application/Shared.Application.csproj
-
-      - name: Build
-        run: |
-          dotnet build Shared.Application/Shared.Application.csproj \
-            --configuration Release --no-restore
-
-      - name: Pack
-        run: |
-          dotnet pack Shared.Application/Shared.Application.csproj \
-            --configuration Release \
-            --no-build \
-            --output ./nupkg
-
-      - name: Push
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
-            --skip-duplicate
-
-  # ─────────────────────────────────────────────
-  # JOB 4 — Shared.Infra (depends on Domain)
-  # ─────────────────────────────────────────────
   publish-infra:
     needs: [detect-changes, publish-domain]
     if: |
       always() &&
       !failure() &&
+      !cancelled() &&
       (needs.detect-changes.outputs.infra == 'true' ||
        needs.detect-changes.outputs.domain == 'true' ||
        github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -156,16 +94,10 @@ jobs:
         run: dotnet restore Shared.Infra/Shared.Infra.csproj
 
       - name: Build
-        run: |
-          dotnet build Shared.Infra/Shared.Infra.csproj \
-            --configuration Release --no-restore
+        run: dotnet build Shared.Infra/Shared.Infra.csproj --configuration Release --no-restore
 
       - name: Pack
-        run: |
-          dotnet pack Shared.Infra/Shared.Infra.csproj \
-            --configuration Release \
-            --no-build \
-            --output ./nupkg
+        run: dotnet pack Shared.Infra/Shared.Infra.csproj --configuration Release --no-build --output ./nupkg
 
       - name: Push
         run: |
@@ -174,23 +106,52 @@ jobs:
             --api-key "${{ secrets.GITHUB_TOKEN }}" \
             --skip-duplicate
 
-  # ─────────────────────────────────────────────
-  # JOB 5 — Shared.Api (depends on all others)
-  # ─────────────────────────────────────────────
-  publish-api:
-    needs: [detect-changes, publish-domain, publish-application, publish-infra]
+  publish-application:
+    needs: [detect-changes, publish-infra]
     if: |
       always() &&
       !failure() &&
-      (needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.domain == 'true' ||
-       needs.detect-changes.outputs.application == 'true' ||
+      !cancelled() &&
+      (needs.detect-changes.outputs.application == 'true' ||
        needs.detect-changes.outputs.infra == 'true' ||
+       needs.detect-changes.outputs.domain == 'true' ||
        github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore
+        run: dotnet restore Shared.Application/Shared.Application.csproj
+
+      - name: Build
+        run: dotnet build Shared.Application/Shared.Application.csproj --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack Shared.Application/Shared.Application.csproj --configuration Release --no-build --output ./nupkg
+
+      - name: Push
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "${{ env.GITHUB_FEED }}" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
+
+  publish-api:
+    needs: [detect-changes, publish-application]
+    if: |
+      always() &&
+      !failure() &&
+      !cancelled() &&
+      (needs.detect-changes.outputs.api == 'true' ||
+       needs.detect-changes.outputs.application == 'true' ||
+       needs.detect-changes.outputs.infra == 'true' ||
+       needs.detect-changes.outputs.domain == 'true' ||
+       github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -202,16 +163,10 @@ jobs:
         run: dotnet restore Shared.Api/Shared.Api.csproj
 
       - name: Build
-        run: |
-          dotnet build Shared.Api/Shared.Api.csproj \
-            --configuration Release --no-restore
+        run: dotnet build Shared.Api/Shared.Api.csproj --configuration Release --no-restore
 
       - name: Pack
-        run: |
-          dotnet pack Shared.Api/Shared.Api.csproj \
-            --configuration Release \
-            --no-build \
-            --output ./nupkg
+        run: dotnet pack Shared.Api/Shared.Api.csproj --configuration Release --no-build --output ./nupkg
 
       - name: Push
         run: |
