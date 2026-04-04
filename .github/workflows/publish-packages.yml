@@ -15,6 +15,7 @@ env:
   DOTNET_NOLOGO: true
   GITHUB_FEED: https://nuget.pkg.github.com/ionut1912/index.json
   NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   packages: write
@@ -29,13 +30,13 @@ jobs:
       application: ${{ steps.filter.outputs.application }}
       api:         ${{ steps.filter.outputs.api }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 2
 
       - name: Detect changed packages
         id: filter
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v3.0.2
         with:
           filters: |
             domain:
@@ -54,7 +55,7 @@ jobs:
     env:
       NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: actions/setup-dotnet@v4
         with:
@@ -89,7 +90,7 @@ jobs:
     env:
       NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: actions/setup-dotnet@v4
         with:
@@ -125,7 +126,7 @@ jobs:
     env:
       NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: actions/setup-dotnet@v4
         with:
@@ -162,7 +163,7 @@ jobs:
     env:
       NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
       - uses: actions/setup-dotnet@v4
         with:
