@@ -25,28 +25,38 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      domain:      ${{ steps.filter.outputs.domain }}
-      infra:       ${{ steps.filter.outputs.infra }}
-      application: ${{ steps.filter.outputs.application }}
-      api:         ${{ steps.filter.outputs.api }}
+      domain:      ${{ steps.domain.outputs.any_modified }}
+      infra:       ${{ steps.infra.outputs.any_modified }}
+      application: ${{ steps.application.outputs.any_modified }}
+      api:         ${{ steps.api.outputs.any_modified }}
     steps:
       - uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 2
 
-      - name: Detect changed packages
-        id: filter
-        uses: dorny/paths-filter@v3.0.2
+      - name: Detect Domain changes
+        id: domain
+        uses: tj-actions/changed-files@v46
         with:
-          filters: |
-            domain:
-              - 'Shared.Domain/**'
-            infra:
-              - 'Shared.Infra/**'
-            application:
-              - 'Shared.Application/**'
-            api:
-              - 'Shared.Api/**'
+          files: Shared.Domain/**
+
+      - name: Detect Infra changes
+        id: infra
+        uses: tj-actions/changed-files@v46
+        with:
+          files: Shared.Infra/**
+
+      - name: Detect Application changes
+        id: application
+        uses: tj-actions/changed-files@v46
+        with:
+          files: Shared.Application/**
+
+      - name: Detect Api changes
+        id: api
+        uses: tj-actions/changed-files@v46
+        with:
+          files: Shared.Api/**
 
   publish-domain:
     needs: detect-changes

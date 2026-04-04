@@ -1,24 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <Version>1.0.4</Version>
-        <Authors>ionut1912</Authors>
-        <Company>Shared</Company>
-        <PackageId>Shared.Infra</PackageId>
-        <Description>Shared infra layer for microservices</Description>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <IncludeSymbols>true</IncludeSymbols>
-        <IncludeSource>true</IncludeSource>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <DocumentationFile>bin\Release\net10.0\Shared.Infra.xml</DocumentationFile>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.9"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0"/>
-        <PackageReference Include="Shared.Domain" Version="1.0.3"/>
-        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="5.15.0"/>
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.5</Version>
+    <Authors>ionut1912</Authors>
+    <Company>Shared</Company>
+    <PackageId>Shared.Infra</PackageId>
+    <Description>Shared infra layer for microservices</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RepositoryUrl>https://github.com/ionut1912/Shared</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.9"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0"/>
+    <PackageReference Include="Shared.Domain" Version="1.0.4"/>
+    <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="5.15.0"/>
+  </ItemGroup>
 </Project>
