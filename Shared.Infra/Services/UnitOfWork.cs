@@ -3,7 +3,6 @@ using Shared.Domain.Interfaces;
 
 namespace Shared.Infra.Services;
 
-
 /// <summary>
 ///     Provides a concrete implementation of the Unit of Work pattern
 ///     for Entity Framework Core.
