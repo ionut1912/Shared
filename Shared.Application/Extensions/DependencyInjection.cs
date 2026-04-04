@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace Shared.Application.Extensions;
 
 /// <summary>

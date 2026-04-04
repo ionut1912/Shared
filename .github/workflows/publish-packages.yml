@@ -58,9 +58,14 @@ jobs:
         with:
           files: Shared.Api/**
 
-  publish-domain:
+  publish:
     needs: detect-changes
-    if: needs.detect-changes.outputs.domain == 'true' || github.event_name == 'workflow_dispatch'
+    if: |
+      needs.detect-changes.outputs.domain == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.application == 'true' ||
+      needs.detect-changes.outputs.api == 'true' ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     env:
       NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
@@ -71,124 +76,36 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: Restore
-        run: dotnet restore Shared.Domain/Shared.Domain.csproj
+      - name: Restore solution
+        run: dotnet restore Shared.slnx
 
-      - name: Build
-        run: dotnet build Shared.Domain/Shared.Domain.csproj --configuration Release --no-restore
+      - name: Build solution
+        run: dotnet build Shared.slnx --configuration Release --no-restore
 
-      - name: Pack
+      - name: Pack Domain
+        if: needs.detect-changes.outputs.domain == 'true' || github.event_name == 'workflow_dispatch'
         run: dotnet pack Shared.Domain/Shared.Domain.csproj --configuration Release --no-build --output ./nupkg
 
-      - name: Push
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.NUGET_PAT }}" \
-            --skip-duplicate
-
-  publish-infra:
-    needs: [detect-changes, publish-domain]
-    if: |
-      always() &&
-      !failure() &&
-      !cancelled() &&
-      (needs.detect-changes.outputs.infra == 'true' ||
-       needs.detect-changes.outputs.domain == 'true' ||
-       github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    env:
-      NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
-    steps:
-      - uses: actions/checkout@v4.2.2
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.x'
-
-      - name: Restore
-        run: dotnet restore Shared.Infra/Shared.Infra.csproj
-
-      - name: Build
-        run: dotnet build Shared.Infra/Shared.Infra.csproj --configuration Release --no-restore
-
-      - name: Pack
+      - name: Pack Infra
+        if: needs.detect-changes.outputs.infra == 'true' || github.event_name == 'workflow_dispatch'
         run: dotnet pack Shared.Infra/Shared.Infra.csproj --configuration Release --no-build --output ./nupkg
 
-      - name: Push
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.NUGET_PAT }}" \
-            --skip-duplicate
-
-  publish-application:
-    needs: [detect-changes, publish-infra]
-    if: |
-      always() &&
-      !failure() &&
-      !cancelled() &&
-      (needs.detect-changes.outputs.application == 'true' ||
-       needs.detect-changes.outputs.infra == 'true' ||
-       needs.detect-changes.outputs.domain == 'true' ||
-       github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    env:
-      NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
-    steps:
-      - uses: actions/checkout@v4.2.2
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.x'
-
-      - name: Restore
-        run: dotnet restore Shared.Application/Shared.Application.csproj
-
-      - name: Build
-        run: dotnet build Shared.Application/Shared.Application.csproj --configuration Release --no-restore
-
-      - name: Pack
+      - name: Pack Application
+        if: needs.detect-changes.outputs.application == 'true' || github.event_name == 'workflow_dispatch'
         run: dotnet pack Shared.Application/Shared.Application.csproj --configuration Release --no-build --output ./nupkg
 
-      - name: Push
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.NUGET_PAT }}" \
-            --skip-duplicate
-
-  publish-api:
-    needs: [detect-changes, publish-application]
-    if: |
-      always() &&
-      !failure() &&
-      !cancelled() &&
-      (needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.application == 'true' ||
-       needs.detect-changes.outputs.infra == 'true' ||
-       needs.detect-changes.outputs.domain == 'true' ||
-       github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    env:
-      NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
-    steps:
-      - uses: actions/checkout@v4.2.2
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.x'
-
-      - name: Restore
-        run: dotnet restore Shared.Api/Shared.Api.csproj
-
-      - name: Build
-        run: dotnet build Shared.Api/Shared.Api.csproj --configuration Release --no-restore
-
-      - name: Pack
+      - name: Pack Api
+        if: needs.detect-changes.outputs.api == 'true' || github.event_name == 'workflow_dispatch'
         run: dotnet pack Shared.Api/Shared.Api.csproj --configuration Release --no-build --output ./nupkg
 
-      - name: Push
+      - name: Verify package contents
+        run: |
+          for f in ./nupkg/*.nupkg; do
+            echo "=== $f ==="
+            unzip -l "$f" | grep "lib/"
+          done
+
+      - name: Push all packages
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --source "${{ env.GITHUB_FEED }}" \

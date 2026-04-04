@@ -2,6 +2,7 @@
 
 namespace Shared.Domain.Interfaces;
 
+
 /// <summary>
 ///     Defines a generic repository for basic CRUD operations on entities.
 /// </summary>
