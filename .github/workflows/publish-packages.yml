@@ -13,7 +13,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_NOLOGO: true
-  GITHUB_FEED: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+  GITHUB_FEED: https://nuget.pkg.github.com/ionut1912/index.json
 
 permissions:
   packages: write
@@ -70,7 +70,7 @@ jobs:
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --api-key "${{ secrets.NUGET_PAT }}" \
             --skip-duplicate
 
   publish-infra:
@@ -103,7 +103,7 @@ jobs:
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --api-key "${{ secrets.NUGET_PAT }}" \
             --skip-duplicate
 
   publish-application:
@@ -137,7 +137,7 @@ jobs:
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --api-key "${{ secrets.NUGET_PAT }}" \
             --skip-duplicate
 
   publish-api:
@@ -172,5 +172,5 @@ jobs:
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --source "${{ env.GITHUB_FEED }}" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --api-key "${{ secrets.NUGET_PAT }}" \
             --skip-duplicate
