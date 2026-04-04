@@ -9,7 +9,7 @@ on:
       - 'Shared.Infra/**'
       - 'Shared.Api/**'
       - '.github/workflows/publish-packages.yml'
-  workflow_dispatch:  # allow manual trigger from GitHub UI
+  workflow_dispatch:
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2   # need previous commit to diff
+          fetch-depth: 2
 
       - name: Detect changed packages
         id: filter
@@ -39,13 +39,13 @@ jobs:
         with:
           filters: |
             domain:
-              - 'src/Shared.Domain/**'
+              - 'Shared.Domain/**'
             application:
-              - 'src/Shared.Application/**'
+              - 'Shared.Application/**'
             infra:
-              - 'src/Shared.Infra/**'
+              - 'Shared.Infra/**'
             api:
-              - 'src/Shared.Api/**'
+              - 'Shared.Api/**'
 
   # ─────────────────────────────────────────────
   # JOB 2 — Shared.Domain (no internal deps, always first)
@@ -65,16 +65,16 @@ jobs:
           dotnet-version: '10.x'
 
       - name: Restore
-        run: dotnet restore src/Shared.Domain/Shared.Domain.csproj
+        run: dotnet restore Shared.Domain/Shared.Domain.csproj
 
       - name: Build
         run: |
-          dotnet build src/Shared.Domain/Shared.Domain.csproj \
+          dotnet build Shared.Domain/Shared.Domain.csproj \
             --configuration Release --no-restore
 
       - name: Pack
         run: |
-          dotnet pack src/Shared.Domain/Shared.Domain.csproj \
+          dotnet pack Shared.Domain/Shared.Domain.csproj \
             --configuration Release \
             --no-build \
             --output ./nupkg
@@ -84,15 +84,13 @@ jobs:
           dotnet nuget push ./nupkg/*.nupkg \
             --source "${{ env.GITHUB_FEED }}" \
             --api-key "${{ secrets.GITHUB_TOKEN }}" \
-            --skip-duplicate   # won't fail if version already exists
+            --skip-duplicate
 
   # ─────────────────────────────────────────────
   # JOB 3 — Shared.Application (depends on Domain)
   # ─────────────────────────────────────────────
   publish-application:
     needs: [detect-changes, publish-domain]
-    # run if: app changed OR domain just published (it may reference new Domain)
-    # always() lets this run even if publish-domain was skipped
     if: |
       always() &&
       !failure() &&
@@ -111,16 +109,16 @@ jobs:
           dotnet-version: '10.x'
 
       - name: Restore
-        run: dotnet restore src/Shared.Application/Shared.Application.csproj
+        run: dotnet restore Shared.Application/Shared.Application.csproj
 
       - name: Build
         run: |
-          dotnet build src/Shared.Application/Shared.Application.csproj \
+          dotnet build Shared.Application/Shared.Application.csproj \
             --configuration Release --no-restore
 
       - name: Pack
         run: |
-          dotnet pack src/Shared.Application/Shared.Application.csproj \
+          dotnet pack Shared.Application/Shared.Application.csproj \
             --configuration Release \
             --no-build \
             --output ./nupkg
@@ -155,16 +153,16 @@ jobs:
           dotnet-version: '10.x'
 
       - name: Restore
-        run: dotnet restore src/Shared.Infra/Shared.Infra.csproj
+        run: dotnet restore Shared.Infra/Shared.Infra.csproj
 
       - name: Build
         run: |
-          dotnet build src/Shared.Infra/Shared.Infra.csproj \
+          dotnet build Shared.Infra/Shared.Infra.csproj \
             --configuration Release --no-restore
 
       - name: Pack
         run: |
-          dotnet pack src/Shared.Infra/Shared.Infra.csproj \
+          dotnet pack Shared.Infra/Shared.Infra.csproj \
             --configuration Release \
             --no-build \
             --output ./nupkg
@@ -201,16 +199,16 @@ jobs:
           dotnet-version: '10.x'
 
       - name: Restore
-        run: dotnet restore src/Shared.Api/Shared.Api.csproj
+        run: dotnet restore Shared.Api/Shared.Api.csproj
 
       - name: Build
         run: |
-          dotnet build src/Shared.Api/Shared.Api.csproj \
+          dotnet build Shared.Api/Shared.Api.csproj \
             --configuration Release --no-restore
 
       - name: Pack
         run: |
-          dotnet pack src/Shared.Api/Shared.Api.csproj \
+          dotnet pack Shared.Api/Shared.Api.csproj \
             --configuration Release \
             --no-build \
             --output ./nupkg
