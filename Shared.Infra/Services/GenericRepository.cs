@@ -4,6 +4,7 @@ using Shared.Domain.Interfaces;
 
 namespace Shared.Infra.Services;
 
+
 /// <inheritdoc />
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
