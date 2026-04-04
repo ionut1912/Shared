@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Shared.Domain.Interfaces;
-using System.Linq.Expressions;
 
 namespace Shared.Infra.Services;
 
@@ -12,7 +12,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     /// <inheritdoc />
     public GenericRepository(DbSet<T> dbset)
     {
-        ArgumentNullException.ThrowIfNull(dbset, nameof(dbset));
+        ArgumentNullException.ThrowIfNull(dbset);
         _dbSet = dbset;
     }
 
@@ -20,7 +20,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(entity, cancellationToken)
-                    .ConfigureAwait(false);
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -36,15 +36,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         includes ??= Array.Empty<Expression<Func<T, object>>>();
 
-        IQueryable<T> query = _dbSet.AsNoTracking();
+        var query = _dbSet.AsNoTracking();
 
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
+        foreach (var include in includes) query = query.Include(include);
 
         return await query.ToListAsync(cancellationToken)
-                          .ConfigureAwait(false);
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -55,12 +52,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         includes ??= Array.Empty<Expression<Func<T, object>>>();
 
-        IQueryable<T> query = _dbSet.AsNoTracking();
+        var query = _dbSet.AsNoTracking();
 
-        foreach (var include in includes)
-        {
-            query = query.Include(include);
-        }
+        foreach (var include in includes) query = query.Include(include);
 
         return await query.FirstOrDefaultAsync(
                 e => EF.Property<Guid>(e, "Id") == id,

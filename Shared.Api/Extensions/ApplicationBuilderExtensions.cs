@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -6,17 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scalar.AspNetCore;
 using Shared.Api.Endpoints;
-using System.Diagnostics;
 
 namespace Shared.Api.Extensions;
 
 /// <summary>
-/// Provides extension methods for configuring the application's middleware pipeline and endpoints.
+///     Provides extension methods for configuring the application's middleware pipeline and endpoints.
 /// </summary>
 public static class ApplicationBuilderExtensions
 {
     /// <summary>
-    /// Adds a global exception handler middleware to the application's request pipeline.
+    ///     Adds a global exception handler middleware to the application's request pipeline.
     /// </summary>
     /// <typeparam name="T">The type used for logging context.</typeparam>
     /// <param name="app">The application builder.</param>
@@ -44,7 +44,7 @@ public static class ApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Adds middleware to log the duration of each HTTP request, including route and status code.
+    ///     Adds middleware to log the duration of each HTTP request, including route and status code.
     /// </summary>
     /// <typeparam name="T">The type used for logging context.</typeparam>
     /// <param name="app">The application builder.</param>
@@ -72,12 +72,10 @@ public static class ApplicationBuilderExtensions
 
                 if (context.GetEndpoint() is Endpoint endpoint)
                 {
-                    var routePattern = endpoint.Metadata.GetMetadata<RouteNameMetadata>()?.RouteName ?? endpoint.DisplayName;
+                    var routePattern = endpoint.Metadata.GetMetadata<RouteNameMetadata>()?.RouteName ??
+                                       endpoint.DisplayName;
 
-                    if (!string.IsNullOrEmpty(routePattern))
-                    {
-                        Activity.Current?.SetTag("http.route", routePattern);
-                    }
+                    if (!string.IsNullOrEmpty(routePattern)) Activity.Current?.SetTag("http.route", routePattern);
                 }
 
                 var logger = context.RequestServices.GetRequiredService<ILogger<T>>();
@@ -94,7 +92,7 @@ public static class ApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Adds standard middleware components to the application's request pipeline.
+    ///     Adds standard middleware components to the application's request pipeline.
     /// </summary>
     /// <param name="app">The application builder.</param>
     /// <returns>The application builder.</returns>
@@ -107,34 +105,31 @@ public static class ApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Maps API documentation endpoints to the application's endpoint routing pipeline.
+    ///     Maps API documentation endpoints to the application's endpoint routing pipeline.
     /// </summary>
     /// <param name="app">The application builder.</param>
     /// <param name="configureScalar">An optional action to configure Scalar API reference UI.</param>
     /// <returns>The application builder.</returns>
-    public static IApplicationBuilder MapApiDocumentation(this IApplicationBuilder app, Action<ScalarOptions>? configureScalar = null)
+    public static IApplicationBuilder MapApiDocumentation(this IApplicationBuilder app,
+        Action<ScalarOptions>? configureScalar = null)
     {
         var routeBuilder = (IEndpointRouteBuilder)app;
 
         routeBuilder.MapOpenApi();
 
         if (configureScalar != null)
-        {
             routeBuilder.MapScalarApiReference(configureScalar);
-        }
         else
-        {
             routeBuilder.MapScalarApiReference(options =>
             {
                 options.WithTitle("API Documentation").WithTheme(ScalarTheme.Default);
             });
-        }
 
         return app;
     }
 
     /// <summary>
-    /// Maps standard endpoints such as health checks and metrics to the application's endpoint routing pipeline.
+    ///     Maps standard endpoints such as health checks and metrics to the application's endpoint routing pipeline.
     /// </summary>
     /// <param name="app">The application builder.</param>
     /// <returns>The application builder.</returns>

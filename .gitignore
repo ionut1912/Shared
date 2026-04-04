@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /Shared.Domain/nuget.config
 /Shared.Infra/nuget.config
 /Shared.Rabbit/nuget.config
+.idea/*

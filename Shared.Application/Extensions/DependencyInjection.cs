@@ -1,16 +1,16 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Shared.Application.Extensions;
 
 /// <summary>
-/// Provides methods to register application services.
+///     Provides methods to register application services.
 /// </summary>
 public static class DependencyInjection
 {
     /// <summary>
-    /// Registers Mediator, pipeline behaviors, and FluentValidation validators.
+    ///     Registers Mediator, pipeline behaviors, and FluentValidation validators.
     /// </summary>
     public static IServiceCollection AddApplicationServices(
         this IServiceCollection services,

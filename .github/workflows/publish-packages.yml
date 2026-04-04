@@ -1,0 +1,223 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'Shared.Domain/**'
+      - 'Shared.Application/**'
+      - 'Shared.Infra/**'
+      - 'Shared.Api/**'
+      - '.github/workflows/publish-packages.yml'
+  workflow_dispatch:  # allow manual trigger from GitHub UI
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_NOLOGO: true
+  NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_FEED: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+jobs:
+  # ─────────────────────────────────────────────
+  # JOB 1 — detect which packages actually changed
+  # ─────────────────────────────────────────────
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      domain:      ${{ steps.filter.outputs.domain }}
+      application: ${{ steps.filter.outputs.application }}
+      infra:       ${{ steps.filter.outputs.infra }}
+      api:         ${{ steps.filter.outputs.api }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2   # need previous commit to diff
+
+      - name: Detect changed packages
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            domain:
+              - 'src/Shared.Domain/**'
+            application:
+              - 'src/Shared.Application/**'
+            infra:
+              - 'src/Shared.Infra/**'
+            api:
+              - 'src/Shared.Api/**'
+
+  # ─────────────────────────────────────────────
+  # JOB 2 — Shared.Domain (no internal deps, always first)
+  # ─────────────────────────────────────────────
+  publish-domain:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.domain == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore
+        run: dotnet restore src/Shared.Domain/Shared.Domain.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/Shared.Domain/Shared.Domain.csproj \
+            --configuration Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack src/Shared.Domain/Shared.Domain.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./nupkg
+
+      - name: Push
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "${{ env.GITHUB_FEED }}" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate   # won't fail if version already exists
+
+  # ─────────────────────────────────────────────
+  # JOB 3 — Shared.Application (depends on Domain)
+  # ─────────────────────────────────────────────
+  publish-application:
+    needs: [detect-changes, publish-domain]
+    # run if: app changed OR domain just published (it may reference new Domain)
+    # always() lets this run even if publish-domain was skipped
+    if: |
+      always() &&
+      !failure() &&
+      (needs.detect-changes.outputs.application == 'true' ||
+       needs.detect-changes.outputs.domain == 'true' ||
+       github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore
+        run: dotnet restore src/Shared.Application/Shared.Application.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/Shared.Application/Shared.Application.csproj \
+            --configuration Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack src/Shared.Application/Shared.Application.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./nupkg
+
+      - name: Push
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "${{ env.GITHUB_FEED }}" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
+
+  # ─────────────────────────────────────────────
+  # JOB 4 — Shared.Infra (depends on Domain)
+  # ─────────────────────────────────────────────
+  publish-infra:
+    needs: [detect-changes, publish-domain]
+    if: |
+      always() &&
+      !failure() &&
+      (needs.detect-changes.outputs.infra == 'true' ||
+       needs.detect-changes.outputs.domain == 'true' ||
+       github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore
+        run: dotnet restore src/Shared.Infra/Shared.Infra.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/Shared.Infra/Shared.Infra.csproj \
+            --configuration Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack src/Shared.Infra/Shared.Infra.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./nupkg
+
+      - name: Push
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "${{ env.GITHUB_FEED }}" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
+
+  # ─────────────────────────────────────────────
+  # JOB 5 — Shared.Api (depends on all others)
+  # ─────────────────────────────────────────────
+  publish-api:
+    needs: [detect-changes, publish-domain, publish-application, publish-infra]
+    if: |
+      always() &&
+      !failure() &&
+      (needs.detect-changes.outputs.api == 'true' ||
+       needs.detect-changes.outputs.domain == 'true' ||
+       needs.detect-changes.outputs.application == 'true' ||
+       needs.detect-changes.outputs.infra == 'true' ||
+       github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore
+        run: dotnet restore src/Shared.Api/Shared.Api.csproj
+
+      - name: Build
+        run: |
+          dotnet build src/Shared.Api/Shared.Api.csproj \
+            --configuration Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack src/Shared.Api/Shared.Api.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./nupkg
+
+      - name: Push
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source "${{ env.GITHUB_FEED }}" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate

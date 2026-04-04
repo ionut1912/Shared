@@ -1,68 +1,65 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using Shared.Infra.Settings;
-using System.Text;
 
 namespace Shared.Api.Extensions;
 
 /// <summary>
-/// Provides extension methods for configuring dependency injection and OpenTelemetry services.
+///     Provides extension methods for configuring dependency injection and OpenTelemetry services.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Adds JWT authentication to the service collection.
+    ///     Adds JWT authentication to the service collection.
     /// </summary>
-    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services,
+        IConfiguration configuration)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
         services.Configure<JwtSettings>(jwtSettings);
 
         services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            var key = jwtSettings["Key"];
-            if (string.IsNullOrEmpty(key))
-                throw new InvalidOperationException("JWT Key is missing in configuration.");
-
-            options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSettings["Issuer"],
-                ValidAudience = jwtSettings["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-            };
-        });
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                var key = jwtSettings["Key"];
+                if (string.IsNullOrEmpty(key))
+                    throw new InvalidOperationException("JWT Key is missing in configuration.");
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                };
+            });
 
         return services;
     }
 
     /// <summary>
-    /// Adds role-based authorization policies to the service collection.
+    ///     Adds role-based authorization policies to the service collection.
     /// </summary>
-    public static IServiceCollection AddRoleBasedAuthorization(this IServiceCollection services, List<string> requiredPolicies, List<string> requiredRoles)
+    public static IServiceCollection AddRoleBasedAuthorization(this IServiceCollection services,
+        List<string> requiredPolicies, List<string> requiredRoles)
     {
         services.AddAuthorization(options =>
         {
-
-            for (int i = 0; i < requiredPolicies.Count; i++)
+            for (var i = 0; i < requiredPolicies.Count; i++)
             {
                 var policy = requiredPolicies[i];
                 var role = requiredRoles[i];
-                options.AddPolicy(policy, policyBuilder =>
-                {
-                    policyBuilder.RequireRole(role);
-                });
+                options.AddPolicy(policy, policyBuilder => { policyBuilder.RequireRole(role); });
             }
         });
 
@@ -70,9 +67,10 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds OpenAPI/Swagger documentation with JWT authentication to the service collection.
+    ///     Adds OpenAPI/Swagger documentation with JWT authentication to the service collection.
     /// </summary>
-    public static IServiceCollection AddOpenApiWithJwtAuth(this IServiceCollection services, string title, string version = "v1")
+    public static IServiceCollection AddOpenApiWithJwtAuth(this IServiceCollection services, string title,
+        string version = "v1")
     {
         services.AddOpenApi(version, options =>
         {
