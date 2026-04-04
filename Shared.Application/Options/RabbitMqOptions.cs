@@ -2,7 +2,6 @@
 
 namespace Shared.Application.Options;
 
-
 /// <summary>
 ///     Represents the configuration settings for connecting to a RabbitMQ message broker.
 /// </summary>
