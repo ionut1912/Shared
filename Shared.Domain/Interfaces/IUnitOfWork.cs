@@ -1,27 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Shared.Domain.Interfaces;
-
-/// <summary>
-///     Defines a Unit of Work abstraction for coordinating changes
-///     across one or more repositories backed by an Entity Framework Core
-///     <see cref="DbContext" />.
+﻿/// <summary>
+///     Defines a unit of work that wraps database operations in a single transaction.
 /// </summary>
-/// <remarks>
-///     A unit of work represents a single transactional boundary,
-///     ensuring that all changes are persisted atomically.
-/// </remarks>
 public interface IUnitOfWork
 {
     /// <summary>
-    ///     Persists all pending changes made within the current unit of work
-    ///     to the underlying data store.
+    ///     Persists all pending changes to the database.
     /// </summary>
-    /// <param name="cancellationToken">
-    ///     A token used to cancel the save operation.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous save operation.
-    /// </returns>
-    Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>The number of state entries written to the database.</returns>
+    Task<int> SaveChangesAsync(CancellationToken ct = default);
+
+    /// <summary>
+    ///     Begins a new database transaction.
+    /// </summary>
+    /// <param name="ct">Cancellation token.</param>
+    Task BeginTransactionAsync(CancellationToken ct = default);
+
+    /// <summary>
+    ///     Commits the current transaction and persists all changes atomically.
+    ///     Does nothing if no transaction is active.
+    /// </summary>
+    /// <param name="ct">Cancellation token.</param>
+    Task CommitAsync(CancellationToken ct = default);
+
+    /// <summary>
+    ///     Rolls back the current transaction and discards all pending changes.
+    ///     Does nothing if no transaction is active.
+    /// </summary>
+    /// <param name="ct">Cancellation token.</param>
+    Task RollbackAsync(CancellationToken ct = default);
 }

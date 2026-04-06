@@ -1,49 +1,47 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Domain.Interfaces;
-
-namespace Shared.Infra.Services;
+using Microsoft.EntityFrameworkCore.Storage;
 
 /// <summary>
-///     Provides a concrete implementation of the Unit of Work pattern
-///     for Entity Framework Core.
+///     EF Core implementation of <see cref="IUnitOfWork" />.
+///     Wraps <see cref="DbContext" /> to manage transactions and change persistence.
 /// </summary>
-/// <remarks>
-///     This class represents a transactional boundary, coordinating the
-///     persistence of changes made through a single <see cref="DbContext" />.
-/// </remarks>
-public class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _context;
+    private readonly DbContext _db;
+    private IDbContextTransaction? _transaction;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="UnitOfWork" /> class
-    ///     using the provided database context.
+    ///     Initializes a new instance of <see cref="UnitOfWork" />.
     /// </summary>
-    /// <param name="context">
-    ///     The <see cref="DbContext" /> instance whose changes will be tracked
-    ///     and committed as part of this unit of work.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    ///     Thrown when <paramref name="context" /> is <c>null</c>.
-    /// </exception>
-    public UnitOfWork(DbContext context)
+    /// <param name="db">The database context instance.</param>
+    public UnitOfWork(DbContext db)
     {
-        ArgumentNullException.ThrowIfNull(context);
-        _context = context;
+        _db = db;
     }
 
-    /// <summary>
-    ///     Persists all pending changes tracked by the underlying
-    ///     <see cref="DbContext" /> to the database.
-    /// </summary>
-    /// <param name="cancellationToken">
-    ///     A token that can be used to cancel the save operation.
-    /// </param>
-    /// <returns>
-    ///     A task that represents the asynchronous save operation.
-    /// </returns>
-    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<int> SaveChangesAsync(CancellationToken ct = default)
+        => await _db.SaveChangesAsync(ct);
+
+    /// <inheritdoc />
+    public async Task BeginTransactionAsync(CancellationToken ct = default)
+        => _transaction = await _db.Database.BeginTransactionAsync(ct);
+
+    /// <inheritdoc />
+    public async Task CommitAsync(CancellationToken ct = default)
     {
-        await _context.SaveChangesAsync(cancellationToken);
+        if (_transaction is null) return;
+        await _transaction.CommitAsync(ct);
+        await _transaction.DisposeAsync();
+        _transaction = null;
+    }
+
+    /// <inheritdoc />
+    public async Task RollbackAsync(CancellationToken ct = default)
+    {
+        if (_transaction is null) return;
+        await _transaction.RollbackAsync(ct);
+        await _transaction.DisposeAsync();
+        _transaction = null;
     }
 }
