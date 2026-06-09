@@ -3,7 +3,7 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.0.8</Version>
+        <Version>1.0.9</Version>
         <Authors>ionut1912</Authors>
         <Company>Shared</Company>
         <PackageId>Shared.Infra</PackageId>
@@ -16,12 +16,11 @@
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.9"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
-        <PackageReference Include="Shared.Domain" Version="1.0.5"/>
-        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="5.30.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.10" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
+        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="6.5.1" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Shared.Domain\Shared.Domain.csproj"/>
+        <ProjectReference Include="..\Shared.Domain\Shared.Domain.csproj" />
     </ItemGroup>
 </Project>
