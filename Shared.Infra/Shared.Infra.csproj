@@ -16,9 +16,9 @@
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.11" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
-        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="6.5.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.12" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+        <PackageReference Include="WolverineFx.EntityFrameworkCore" Version="6.31.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Shared.Domain\Shared.Domain.csproj" />

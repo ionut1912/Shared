@@ -18,24 +18,24 @@
     <ItemGroup>
         <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
         <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
-        <PackageReference Include="Scalar.AspNetCore" Version="2.16.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.17.2" />
         <PackageReference Include="Shared.Infra" Version="1.0.6" />
-        <PackageReference Include="OpenTelemetry" Version="1.15.3" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
+        <PackageReference Include="OpenTelemetry" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.18.0" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.18.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.14.0-beta.2" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.18.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Process" Version="1.14.0-beta.2" />
         <PackageReference Include="OpenTelemetry.Instrumentation.EventCounters" Version="1.14.0-alpha.1" />
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.1" />
-        <PackageReference Include="WolverineFx" Version="6.5.1" />
-        <PackageReference Include="WolverineFx.FluentValidation" Version="6.5.1" />
-        <PackageReference Include="WolverineFx.Postgresql" Version="6.5.1" />
-        <PackageReference Include="WolverineFx.RabbitMQ" Version="6.5.1" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
+        <PackageReference Include="WolverineFx" Version="6.31.0" />
+        <PackageReference Include="WolverineFx.FluentValidation" Version="6.31.0" />
+        <PackageReference Include="WolverineFx.Postgresql" Version="6.31.0" />
+        <PackageReference Include="WolverineFx.RabbitMQ" Version="6.31.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Shared.Application\Shared.Application.csproj" />
